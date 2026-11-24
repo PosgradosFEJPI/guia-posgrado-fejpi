@@ -27,15 +27,14 @@ const steps=[
  ["Entra al correo institucional y activa el doble factor","Desde ahora, toda comunicación oficial llega a ese correo.","#plataformas"],
  ["Ingresa a SIGA Académico","Con tu usuario corto y contraseña. Revisa tus datos y tu plan.","#plataformas"],
  ["Paga tu matrícula o legaliza tu crédito","Sin la matrícula pagada no puedes inscribir asignaturas.","#pagos"],
- ["Inscribe tus cursos","Sigue los nueve pasos y verifica que todo quede en verde.","#inscripcion"],
+ ["Inscribe tus materias","Sigue los nueve pasos y verifica que todo quede en verde.","#inscripcion"],
  ["Descarga la App UniSabana y activa tu carné QR","Agrega tu foto para entrar al campus con reconocimiento facial.","#plataformas"],
  ["Conéctate al Wi-Fi \"Estudiantes\"","Usa tus credenciales institucionales.","#plataformas"],
  ["Instala Microsoft 365 y abre Teams","Tienes cinco licencias gratuitas.","#plataformas"],
- ["Entra a Virtual Sabana","Con el botón \"Conexión Microsoft 365\".","#plataformas"],
  ["Lee las reglas clave del Reglamento","Nota mínima 3,5, asistencia del 75 % y plazos de trámites.","#reglamento"],
  ["Guarda los contactos y solicita tu asesor académico","Directorio de la Facultad y formulario de asesoría.","#contactos"]
 ];
-const done=new Set(store.get("gp_checks",[]));
+const done=new Set(store.get("gp_checks2",[]));
 const cl=$("#checklist");
 cl.innerHTML=steps.map((s,i)=>`<li data-search="${esc(s[0]+" "+s[1])}"><input type="checkbox" id="chk${i}" ${done.has(i)?"checked":""}><label for="chk${i}"><b>${esc(s[0])}</b><span>${esc(s[1])}</span></label><a class="go" href="${s[2]}" style="margin-left:auto">Ver cómo</a></li>`).join("");
 const msgs=["Empieza por revisar tu correo personal.","Buen comienzo. Sigue con el siguiente paso.","Vas por buen camino.","Ya pasaste la mitad.","Casi terminas.","¡Listo! Ya tienes todo en orden."];
@@ -45,7 +44,7 @@ function upd(){
   $("#ringFg").setAttribute("stroke-dashoffset",String(c-c*n/t));
   $("#ringTxt").textContent=`${n}/${t}`;
   $("#ringMsg").textContent=n===t?msgs[5]:n===0?msgs[0]:n<3?msgs[1]:n<5?msgs[2]:n<8?msgs[3]:msgs[4];
-  store.set("gp_checks",[...done]);
+  store.set("gp_checks2",[...done]);
 }
 cl.addEventListener("change",e=>{const i=+e.target.id.replace("chk","");e.target.checked?done.add(i):done.delete(i);upd()});
 $("#resetChecks").addEventListener("click",()=>{done.clear();$$("#checklist input").forEach(x=>x.checked=false);upd()});
@@ -69,7 +68,7 @@ $("#stepList").innerHTML=ins.map((x,i)=>`<li><button type="button" role="tab" id
 function renderStep(){
   const x=ins[cur];
   $$("#stepList button").forEach((b,i)=>{b.setAttribute("aria-selected",String(i===cur));b.classList.toggle("seen",seen.has(i)&&i!==cur)});
-  $("#stepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cur+1).padStart(2,"0")}</span><div><span class="eyebrow">Paso ${cur+1} de ${ins.length}</span><h3>${esc(x.t)}</h3></div></div>
+  $("#stepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cur+1)}</span><div><span class="eyebrow">Paso ${cur+1} de ${ins.length}</span><h3>${esc(x.t)}</h3></div></div>
   <div class="step-bar" aria-hidden="true"><i style="width:${(cur+1)/ins.length*100}%"></i></div>
   <p>${x.d}</p>${x.route?route(x.route):""}${x.warn?`<div class="callout"><b>Ojo:</b> ${esc(x.warn)}</div>`:""}${x.img?`<figure class="shot"><button type="button" class="shot-btn" data-zoom="${x.img[0]}" data-cap="${esc(x.img[1])}" data-hot='${JSON.stringify(x.img[2])}' aria-label="Ampliar"><span class="shot-img"><img src="/img/fin/${x.img[0]}.webp?v=8" alt="${esc(x.img[1])}" loading="lazy">${x.img[2].map(h=>`<i class="hot has-n${h[2]>80?" n-in":h[0]<7?" n-right":""}" data-n="${h[4]||1}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"></i>`).join("")}</span></button><figcaption>${esc(x.img[1])}</figcaption></figure>`:x.m?`<div class="mock" aria-hidden="true">${x.m}</div>`:""}${x.link?`<div><a class="btn ghost" href="${x.link[1]}" target="_blank" rel="noopener">${esc(x.link[0])} ↗</a></div>`:""}
   <div class="nav"><button class="btn ghost" type="button" id="prevS" ${cur===0?"disabled":""}>← Anterior</button><button class="btn" type="button" id="nextS">${cur===ins.length-1?"Volver al inicio":"Siguiente →"}</button></div>`;
@@ -97,18 +96,16 @@ const T=[
   k:["Sigue asistiendo hasta que te confirmen la aprobación.","Cuando la vuelvas a cursar, pagas sus créditos.","Se puede aprobar o rechazar."]},
  {id:"reserva",n:"Reserva de cupo",when:"Si eres estudiante antiguo y debes aplazar tus estudios el siguiente semestre. La reserva es por máximo un año.",r:[...G,"SOLICITUD RESERVA DE CUPO"],w:"dp",tags:[["blue","Máximo 1 año"]],
   f:[["Solicita por SIGA","Argumenta y adjunta soportes."],["La Dirección de Programa estudia","Según tu historial académico y disciplinario."],["Atiende los paz y salvos","Consulta la solicitud en SIGA hasta que todas las unidades los den."],["Recibes respuesta","Por el sistema."],["Si ya pagaste el semestre","Indica en el trámite si pides devolución o acumulado. Te adjuntan un memorando para Financiación Universitaria."],["Envía el memorando","Por SIGA en la solicitud de acumulado o devolución."]],
-  k:["Ruta del paso 6: Gestión de trámites › Petición de trámites › SOLICITUD DE ACUMULADO/DEVOLUCIÓN.","Financiación Universitaria decide si aplica el acumulado o la devolución y su porcentaje.","Se puede aprobar o rechazar."],
-  tut:"https://portalservicios.unisabana.edu.co/Capacitacion_SIGA/SOLICITUD%20DE%20RESERVA%20DE%20CUPO/index.html?Guid=1fc31aff-3e94-4b2c-be45-6b29b3fcf9ea"},
+  k:["Ruta del paso 6: Gestión de trámites › Petición de trámites › SOLICITUD DE ACUMULADO/DEVOLUCIÓN.","Financiación Universitaria decide si aplica el acumulado o la devolución y su porcentaje.","Se puede aprobar o rechazar."]},
  {id:"cancelsem",n:"Cancelación de semestre y reserva de cupo",when:"Si debes cancelar el semestre en curso por una circunstancia grave o imprevista y vas a volver dentro del año siguiente.",r:[...G,"CANCELACIÓN DE SEMESTRE Y RESERVA DE CUPO"],w:"de",tags:[["blue","Regreso en máximo 1 año"]],
   f:[["Solicita por SIGA","Argumenta y adjunta soportes según el caso."],["Atiende los paz y salvos","Consulta la solicitud en SIGA hasta que finalicen."],["Recibes la decisión","La Dirección de Estudiantes de la Facultad aprueba o rechaza y te notifica por el sistema."]],
   k:["Puedes pedir devolución o acumulado de la matrícula. Financiación Universitaria decide si aplica y el porcentaje.","Para volver (en no más de un año) debes hacer el trámite de reintegro.","Recuerda: si dejas de asistir sin hacer este trámite, tus asignaturas se califican con 0,0."]},
  {id:"reintegro",n:"Reintegro",when:"Si quieres retomar tus estudios después de uno o máximo dos semestres de haber reservado cupo.",r:[...G,"SOLICITUD REINTEGRO"],w:"dp",tags:[["warn","Con costo"]],
   f:[["Solicita por SIGA","Indica el ciclo en que te reintegras y adjunta soportes."],["La Dirección de Programa estudia","Según tu historial académico."],["Recibes respuesta","Por el sistema."],["Si se aprueba, pagas","Se genera el recibo de derechos de reintegro."],["Recibo de matrícula","Confirmado el pago, se genera tu recibo de matrícula."]],
-  k:["Se puede aprobar o rechazar.","El reintegro queda sujeto al plan de estudios vigente."],
-  tut:"https://portalservicios.unisabana.edu.co/Capacitacion_SIGA/Solicitud%20De%20Reintegro%20estudiante/index.html?Guid=265f3679-7bc7-4989-93b2-80e7c97aca9e"},
- {id:"homologacion",n:"Homologación de asignaturas",when:"Si eres graduado de un posgrado de esta u otra universidad y quieres homologar asignaturas de tu plan de estudios.",r:[...G,"SOLICITUD CONVALIDACIONES"],w:"dp",tags:[["blue","Máximo 50 % del plan"]],
+  k:["Se puede aprobar o rechazar.","El reintegro queda sujeto al plan de estudios vigente."]},
+ {id:"homologacion",n:"Homologación de asignaturas",when:"Si eres graduado de un posgrado de esta u otra universidad y quieres homologar asignaturas de tu plan de estudios.",r:[...G,"SOLICITUD CONVALIDACIONES"],w:"dp",tags:[["blue","Máximo 50 % del plan"],["ok","Interna sin costo"],["warn","Externa con costo"]],
   f:[["Solicita por SIGA","Argumenta y adjunta soportes."],["La Dirección de Programa estudia","Según los soportes presentados."],["Recibes respuesta","Por el sistema."],["Si se aprueba","No cursas esas asignaturas."]],
-  k:["Adjunta los contenidos programáticos y las notas del posgrado cursado.","Indica con claridad qué asignaturas quieres homologar.","Se homologa como máximo el 50 % de las asignaturas del plan."]},
+  k:["Adjunta los contenidos programáticos y las notas del posgrado cursado.","Indica con claridad qué asignaturas quieres homologar.","Se homologa como máximo el 50 % de las asignaturas del plan.","Si la homologación es interna (asignaturas cursadas en la Universidad de La Sabana), no se cobra. Si es externa (asignaturas cursadas en otra universidad), sí tiene un costo."]},
  {id:"prueba",n:"Periodo de prueba",when:"Si tu promedio acumulado quedó por debajo de 3,5 y quieres continuar el siguiente semestre.",r:[...G,"SOLICITUD PERIODO DE PRUEBA"],w:"cf",tags:[["warn","Promedio menor a 3,5"]],
   f:[["Solicita por SIGA","Argumenta y adjunta soportes."],["La Comisión de Facultad estudia","Según tu historial académico y disciplinario."],["Recibes respuesta","Por el sistema, o la Facultad te cita para entregártela."]],
   k:["Está atento a tu correo y celular.","Se puede aprobar o rechazar."]},
@@ -116,6 +113,7 @@ const T=[
   f:[["Escribe a la Facultad","A posgradosfacultad.derecho@unisabana.edu.co, argumentando y con soportes."],["Recibes respuesta","Por el mismo medio."],["Si se aprueba","Registro Académico ajusta tu carga y Financiación Universitaria emite el recibo ajustado."]],
   k:["Antes de solicitarla, asesórate con la Coordinación de Éxito Académico sobre tu ubicación semestral, número de créditos y viabilidad del trámite."]}
 ];
+const GUIA={"recuperatoria": "2doxzmtnps/web/Evaluacio%CC%81n%20Recuperatoria.png?v=476f69a9-5e0a-45e2-adbc-378afabf8d39", "supletorio": "lqo4zlgbal/web/Exa%CC%81men%20supletorio.png?v=9ec3258a-6765-4b1a-9d22-624312053059", "aplazamiento": "cjcgrrwuml/web/Aplazamiento%20de%20asignaturas.png?v=1c7d54ef-f222-47c3-8d95-66fe8faeba71", "cancelacion": "hborsas5oe/web/Cancelacio%CC%81n%20de%20asignaturas.png?v=d47933eb-aeb2-415f-9e6d-20de6af70ee8", "reserva": "pt4tipmkku/web/Reserva%20de%20cupo.png?v=b7b1db81-3ca0-47a0-b5a1-d8c7adfb814b", "cancelsem": "o0e3zwdrgn/web/Cancelacio%CC%81n%20de%20semestre%20y%20reserva%20de%20cupo.png?v=6932de16-9502-477f-a066-b8e53cd188c4", "reintegro": "7dmplkt66x/web/Reintegro.png?v=075247de-f099-46a9-a73f-e390ad0c0d93", "homologacion": "f0frng9d10/web/Homologacio%CC%81n%20de%20asignaturas.png?v=fe301e3d-031a-4637-bbeb-2f769f5422da", "prueba": "pzmkofrlz2/web/Peri%CC%81odo%20de%20prueba.png?v=41ce7e61-ea18-442b-86f1-68e08265c7a0", "creditos": "e5irg12vij/web/Matri%CC%81cula%20por%20cre%CC%81ditos.png?v=72b3a82b-3857-4e5e-90ec-cc9ee66fcaa1"};
 const tabs=$("#tramTabs");
 tabs.innerHTML=T.map((t,i)=>`<button type="button" role="tab" id="tt-${t.id}" aria-selected="${i===0}">${esc(t.n)}</button>`).join("");
 const whoIcon=`<svg><use href="#i-people"/></svg>`;
@@ -126,7 +124,7 @@ function tramHTML(t,withId){
    <ol class="flow">${t.f.map(s=>`<li><b>${esc(s[0])}</b><span>${esc(s[1])}</span></li>`).join("")}</ol>
    <div class="tram-foot"><div class="callout"><b>Ten en cuenta</b><ul>${t.k.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
    <div class="card" style="display:grid;gap:10px;align-content:start"><div class="who">${whoIcon}<span>Decide: <b>${who[t.w]}</b></span></div>
-   ${t.tut?`<a href="${t.tut}" target="_blank" rel="noopener">Tutorial SIGA de este trámite ↗</a>`:""}
+   ${GUIA[t.id]?`<a href="https://usabana.widen.net/content/${GUIA[t.id]}" target="_blank" rel="noopener">Guía oficial de este trámite ↗</a>`:""}
    <span class="muted" style="font-size:.88rem">¿Dudas? Escribe a la Coordinación de Éxito Académico.</span>
    <div class="contact"><span class="k">Correo</span><span class="v">posgradosfacultad.derecho@unisabana.edu.co</span><button class="copy" type="button" data-copy="posgradosfacultad.derecho@unisabana.edu.co">Copiar</button></div></div></div>
   </article>`;
@@ -151,11 +149,11 @@ const S=[
  ["Necesito parar el próximo semestre","reserva","Pide reserva de cupo por SIGA. La reserva dura máximo un año y luego debes pedir reintegro."],
  ["Debo retirarme del semestre que estoy cursando","cancelsem","Pide cancelación de semestre y reserva de cupo. No dejes de asistir sin hacer el trámite, porque tus asignaturas quedarían en 0,0."],
  ["Reservé cupo y quiero volver","reintegro","Pide el reintegro por SIGA indicando el ciclo en que regresas. Si se aprueba, pagas los derechos de reintegro y luego se genera tu recibo de matrícula."],
- ["Ya cursé materias en otro posgrado","homologacion","Pide la homologación por SIGA con contenidos programáticos y notas. Se puede homologar hasta el 50 % del plan."],
+ ["Ya cursé materias en otro posgrado","homologacion","Pide la homologación por SIGA con contenidos programáticos y notas. Se puede homologar hasta el 50 % del plan. Si es interna no se cobra. Si es externa, sí tiene un costo."],
  ["Mi promedio acumulado bajó de 3,5","prueba","Perdiste el derecho de permanencia, pero puedes pedir un periodo de prueba por SIGA. La Comisión de Facultad decide."],
  ["No puedo tomar la carga completa de créditos","creditos","Solicita matrícula por créditos por correo a la Facultad. Antes, asesórate con la Coordinación de Éxito Académico."],
  ["Necesito financiar mi matrícula",null,"Compara las líneas de crédito y sigue el paso a paso de la solicitud, con las pantallas de la plataforma oficial. Hazlo con tiempo, porque sin la matrícula pagada o el crédito legalizado no puedes inscribir asignaturas.",[["Paso a paso del crédito","#pasoapaso"],["Cómo pagar la matrícula","#pagos"]]],
- ["No sé cómo inscribir mis materias",null,"Primero verifica que tu matrícula esté pagada, porque sin ese pago no puedes inscribir asignaturas. Luego sigue la guía de inscripción paso a paso con los números de clase de tu horario.",[["Ir a la guía","#inscripcion"],["Cómo pagar","#pagos"]]],
+ ["No sé cómo inscribir mis materias",null,"Primero verifica que tu matrícula esté pagada, porque sin ese pago no puedes inscribir asignaturas. Luego sigue la guía de inscripción paso a paso con los números de clase que deseas inscribir (4 dígitos).",[["Ir a la guía","#inscripcion"],["Cómo pagar","#pagos"]]],
  ["No me deja inscribir materias",null,"La causa más común es que la matrícula no está pagada o el crédito aún no está legalizado. Revisa tu orden de matrícula en SIGA y, si ya pagaste, escribe a la Coordinación de Éxito Académico.",[["Cómo pagar","#pagos"],["Estado de mi crédito","#states"]]]
 ];
 $("#situations").innerHTML=S.map((s,i)=>`<button type="button" aria-pressed="${i===0}" data-i="${i}">${esc(s[0])}</button>`).join("");
@@ -181,7 +179,7 @@ const D=[
  {t:"Atención general Universidad",u:"Contact center y canales generales",c:[["Teléfono","(601) 861 5555 · 861 6666"],["WhatsApp","+57 320 516 4838",1]],q:"contact center teléfono whatsapp universidad"},
  {t:"Registro Académico",u:"Edificio O, módulo 26 · L a V 8:00 a. m. a 5:00 p. m.",c:[["Certificados","Ext. 33316"],["Correo","registro.academico@unisabana.edu.co",1]],q:"registro académico certificados correo"},
  {t:"Tecnología (Service Desk)",u:"Edificio E1, piso 1",c:[["Teléfono","861 5555 ext. 34444"],["Correo","service.desk@unisabana.edu.co",1]],q:"tecnología service desk soporte"},
- {t:"Bienestar y Experiencia del Estudiante",u:"Deportes, cultura, salud y más",c:[["Teléfono","861 5555 ext. 20251"],["Centro Médico","861 5555 ext. 20222"],["Correo","experiencia.bienestar@unisabana.edu.co",1]],q:"bienestar centro médico salud"},
+ {t:"Bienestar y Experiencia del Estudiante",u:"Deportes, cultura, salud y más",c:[["Teléfono","861 5555 ext. 20251"],["Centro Médico","861 5555 ext. 20222 · Sábados de 8:00 a. m. a 2:00 p. m."],["Correo","experiencia.bienestar@unisabana.edu.co",1]],q:"bienestar centro médico salud"},
  {t:"Biblioteca",u:"Octavio Arizmendi Posada",c:[["WhatsApp","310 221 2065",1]],q:"biblioteca whatsapp"},
  {t:"ILFARUS",u:"Asesoría personal y familiar",c:[["Teléfono","861 5555 ext. 43200"],["Celular","315 307 9039",1],["Correo","consultorio.asesoria@unisabana.edu.co",1]],q:"ilfarus familia asesoría"}
 ];
@@ -205,7 +203,7 @@ const F=[
  ["¿Puedo ser mi propio codeudor?","No. En ninguna línea de crédito directo puedes ser tu propio codeudor. El codeudor siempre debe ser otra persona (familiar o externa) que resida y tenga ingresos en Colombia, no tenga reportes negativos y tenga capacidad de endeudamiento."],
  ["¿Puedo pagar la matrícula por partes?","Sí. En SIGA, en Realización de Pagos, elige Pago Parcial. El sistema exige un valor mínimo por abono."],
  ["¿Qué becas hay para posgrado?","Beca Excelencia, Beca Sabana (Talento), Pronto Pago, descuentos Alumni, Familiar, grupo de empleados y Alumno Meritorio, becas por convenio y becas para empleados. Revisa la sección Becas y descuentos."],
- ["¿Necesito certificar inglés?","Depende de tu programa. Consulta con tu director de programa si tu plan tiene requisito de inglés. Como estudiante de posgrado tienes 30 % de descuento en cursos de idiomas."]
+ ["¿Necesito certificar inglés?","Depende de tu programa. Consulta con tu director de programa si tu plan tiene requisito de inglés. Para conocer los cursos de idiomas y sus beneficios, consulta directamente con el Centro Internacional de Lenguas."]
 ];
 $("#faqList").innerHTML=F.map(f=>`<details class="acc" data-search="${esc(f[0]+" "+f[1])}"><summary>${esc(f[0])}</summary><div class="acc-body"><p>${esc(f[1])}</p></div></details>`).join("");
 
@@ -229,7 +227,7 @@ $$("[data-search]").forEach(el=>{
 });
 T.forEach(t=>idx.push({tram:t.id,sec:"Trámites",t:t.n,txt:t.when,k:norm(t.n+" "+t.when+" "+(t.r||[]).join(" ")+" "+t.f.map(x=>x.join(" ")).join(" ")+" "+t.k.join(" "))}));
 if(window.FIN)window.FIN.idx.forEach(o=>idx.push(Object.assign({},o,{k:norm(o.k)})));
-ins.forEach((x,i)=>idx.push({step:i,sec:"Inscripción de cursos",t:`Paso ${i+1}: ${x.t}`,txt:x.d.replace(/<[^>]+>/g,""),k:norm("inscripción inscribir cursos materias "+x.t+" "+x.d)}));
+ins.forEach((x,i)=>idx.push({step:i,sec:"Inscripción de materias",t:`Paso ${i+1}: ${x.t}`,txt:x.d.replace(/<[^>]+>/g,""),k:norm("inscripción inscribir cursos materias "+x.t+" "+x.d)}));
 
 function snippet(txt,terms){const n=norm(txt);let p=-1;for(const t of terms){p=n.indexOf(t);if(p>=0)break}const st=Math.max(0,p-40);let s=(st>0?"…":"")+txt.slice(st,st+130)+(txt.length>st+130?"…":"");let h=esc(s);terms.forEach(t=>{if(t.length<2)return;const re=new RegExp("("+t.split("").map(c=>c.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("[\\u0300-\\u036f]?")+")","ig");h=h.replace(re,"<mark>$1</mark>")});return h}
 function runSearch(input,res){

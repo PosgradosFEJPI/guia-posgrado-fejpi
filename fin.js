@@ -8,7 +8,7 @@ const route=(parts,lbl)=>`<div class="siga"><span class="lbl">${lbl||"SIGA"}</sp
 const IMG="/img/fin/", IV="?v=8";
 const U={
  directa:"https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados",
- plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/mensajes.jsp?NoSolicitud=31413",
+ plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/",
  siga:"https://sigaacademico.unisabana.edu.co/psp/CS90PRO/?&cmd=login&languageCd=ESP&",
  polNTD:"https://usabana.widen.net/s/6bbbfqnzhf/politicas-de-credito-no-te-detengas-tradicional-y-especial",
  polProy:"https://usabana.widen.net/s/7kmkvfzh5b/pol.-linea-credito-proyectate-v-9.0-01-may-26-2",
@@ -214,7 +214,7 @@ function renderCSteps(){
   let last=-1;
   $("#cStepList").innerHTML=st.map((x,i)=>{const h=x.ph!==last?`<li class="ph-h" role="presentation"><span>Fase ${x.ph+1}</span>${esc(PH[x.ph])}</li>`:"";last=x.ph;return h+`<li><button type="button" role="tab" data-cs="${i}" aria-selected="${i===cs}" class="${seenC.has(i)&&i!==cs?"seen":""}"><em>${i+1}</em><span>${esc(x.s)}</span></button></li>`}).join("");
   const x=st[cs], nx=st[cs+1];
-  $("#cStepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cs+1).padStart(2,"0")}</span><div><span class="eyebrow">Fase ${x.ph+1} · ${esc(PH[x.ph])}</span><h3>${esc(x.t)}</h3><span class="s-meta">${esc(L[line].n)} · Paso ${cs+1} de ${st.length}</span></div></div>
+  $("#cStepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cs+1)}</span><div><span class="eyebrow">Fase ${x.ph+1} · ${esc(PH[x.ph])}</span><h3>${esc(x.t)}</h3><span class="s-meta">${esc(L[line].n)} · Paso ${cs+1} de ${st.length}</span></div></div>
   <div class="step-bar" aria-hidden="true"><i style="width:${(cs+1)/st.length*100}%"></i></div>
   <div class="cbody">${stepBody(x,line)}</div>
   <div class="nav"><button class="btn ghost" type="button" data-cnav="-1" ${cs===0?"disabled":""}>← Anterior</button><button class="btn" type="button" data-cnav="1">${nx?`Siguiente<span class="nx">: ${esc(nx.s)}</span> →`:"Volver al inicio ↺"}</button></div>`;
