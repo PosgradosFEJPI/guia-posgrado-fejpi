@@ -669,3 +669,15 @@ ol.acts .an{flex:none;width:24px;height:24px;border-radius:50%;background:#E5132
 .loan td:first-child{white-space:nowrap}
 @media (max-width:560px){.loan{font-size:.84rem}.loan th,.loan td{padding:9px 8px}}
 .callout a[href^="mailto:"]{overflow-wrap:anywhere}
+
+.radicar{margin:28px 0 8px}
+.radicar-h{display:flex;align-items:center;gap:12px;font-size:1.35rem;margin-bottom:8px}
+.radicar>.muted{margin-bottom:16px;max-width:75ch}
+#rStepList{counter-reset:s}
+.tram-shot{margin:4px 0 14px}
+.tram-shot .shot-img img{max-height:420px;width:auto;max-width:100%;margin:0 auto}
+.tram-shot .shot-btn{background:#fff;display:flex;justify-content:center}
+#rStepPanel .shot-img img{max-height:560px;width:auto;max-width:100%;margin:0 auto}
+#rStepPanel .shot-btn{background:#fff;display:flex;justify-content:center}
+.tram-shot{margin:18px 0 6px}
+.tram-shot-h{font:700 .95rem var(--f-display);margin-bottom:8px}

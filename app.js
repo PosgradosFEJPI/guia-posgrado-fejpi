@@ -79,7 +79,7 @@ $("#stepList").addEventListener("click",e=>{const b=e.target.closest("button");i
 renderStep();
 
 /* ---------- Trámites ---------- */
-const G=["Gestión de trámites","Petición de trámites"];
+const G=["Trámites","Petición de Trámites"];
 const who={cf:"Comisión de Facultad",dp:"Dirección de Programa",de:"Dirección de Estudiantes de la Facultad",ea:"Coordinación de Éxito Académico"};
 const T=[
  {id:"recuperatoria",n:"Evaluación recuperatoria",when:"Si tu nota definitiva en una asignatura quedó entre 3,0 y 3,4.",r:[...G,"SOLICITUD EVALUACIÓN RECUPERATORIA"],w:"cf",tags:[["warn","Con costo"],["blue","En el mismo periodo"]],
@@ -94,12 +94,12 @@ const T=[
  {id:"cancelacion",n:"Cancelación de asignaturas",when:"Si quieres cancelar una asignatura que estás cursando, antes de haber cursado el 25 % y siempre que no la estés repitiendo.",r:[...G,"SOLICITUD CANCELACIÓN ASIGNATURAS"],w:"dp",tags:[["bad","Antes del 25 %"],["warn","Pagas al cursarla"]],
   f:[["Solicita por SIGA","Argumenta y adjunta soportes según el caso."],["La Dirección de Programa estudia","Según tu historial académico."],["Recibes respuesta","Por el sistema."],["Si se aprueba","La asignatura sale de tu horario."]],
   k:["Sigue asistiendo hasta que te confirmen la aprobación.","Cuando la vuelvas a cursar, pagas sus créditos.","Se puede aprobar o rechazar."]},
- {id:"reserva",n:"Reserva de cupo",when:"Si eres estudiante antiguo y debes aplazar tus estudios el siguiente semestre. La reserva es por máximo un año.",r:[...G,"SOLICITUD RESERVA DE CUPO"],w:"dp",tags:[["blue","Máximo 1 año"]],
-  f:[["Solicita por SIGA","Argumenta y adjunta soportes."],["La Dirección de Programa estudia","Según tu historial académico y disciplinario."],["Atiende los paz y salvos","Consulta la solicitud en SIGA hasta que todas las unidades los den."],["Recibes respuesta","Por el sistema."],["Si ya pagaste el semestre","Indica en el trámite si pides devolución o acumulado. Te adjuntan un memorando para Financiación Universitaria."],["Envía el memorando","Por SIGA en la solicitud de acumulado o devolución."]],
-  k:["Ruta del paso 6: Gestión de trámites › Petición de trámites › SOLICITUD DE ACUMULADO/DEVOLUCIÓN.","Financiación Universitaria decide si aplica el acumulado o la devolución y su porcentaje.","Se puede aprobar o rechazar."]},
+ {id:"reserva",n:"Reserva de cupo",imgH:"Así se ve el paso 6 en SIGA",img:{src:"tr-devol",cap:"Finanzas del Alumnado › Sol. Devoluciones y Acumulados. 1 Ingresar Solicitud. 2 Revisar Solicitudes.",hot:[[24.5,89,25.9,2.9,1],[53.9,89,26.9,2.9,2]]},when:"Si eres estudiante antiguo y debes aplazar tus estudios el siguiente semestre. La reserva es por máximo un año.",r:[...G,"SOLICITUD RESERVA DE CUPO"],w:"dp",tags:[["blue","Máximo 1 año"]],
+  f:[["Solicita por SIGA","Argumenta y adjunta soportes."],["La Dirección de Programa estudia","Según tu historial académico y disciplinario."],["Atiende los paz y salvos","Consulta la solicitud en SIGA hasta que todas las unidades los den."],["Recibes respuesta","Por el sistema."],["Si ya pagaste el semestre","Indica en el trámite si pides devolución o acumulado. Te adjuntan un memorando para Financiación Universitaria."],["Envía el memorando","Por SIGA, en Finanzas del Alumnado › Sol. Devoluciones y Acumulados."]],
+  k:["Ruta del paso 6 en la página de inicio de SIGA: Finanzas del Alumnado › Sol. Devoluciones y Acumulados. Adjunta documentos escaneados (no fotografías) en .pdf, .doc, .docx, .jpg o .gif de máximo 10 MB.","Financiación Universitaria decide si aplica el acumulado o la devolución y su porcentaje.","Se puede aprobar o rechazar."]},
  {id:"cancelsem",n:"Cancelación de semestre y reserva de cupo",when:"Si debes cancelar el semestre en curso por una circunstancia grave o imprevista y vas a volver dentro del año siguiente.",r:[...G,"CANCELACIÓN DE SEMESTRE Y RESERVA DE CUPO"],w:"de",tags:[["blue","Regreso en máximo 1 año"]],
   f:[["Solicita por SIGA","Argumenta y adjunta soportes según el caso."],["Atiende los paz y salvos","Consulta la solicitud en SIGA hasta que finalicen."],["Recibes la decisión","La Dirección de Estudiantes de la Facultad aprueba o rechaza y te notifica por el sistema."]],
-  k:["Puedes pedir devolución o acumulado de la matrícula. Financiación Universitaria decide si aplica y el porcentaje.","Para volver (en no más de un año) debes hacer el trámite de reintegro.","Recuerda: si dejas de asistir sin hacer este trámite, tus asignaturas se califican con 0,0."]},
+  k:["Puedes pedir devolución o acumulado de la matrícula en SIGA, Finanzas del Alumnado › Sol. Devoluciones y Acumulados. Financiación Universitaria decide si aplica y el porcentaje.","Para volver (en no más de un año) debes hacer el trámite de reintegro.","Recuerda: si dejas de asistir sin hacer este trámite, tus asignaturas se califican con 0,0."]},
  {id:"reintegro",n:"Reintegro",when:"Si quieres retomar tus estudios después de uno o máximo dos semestres de haber reservado cupo.",r:[...G,"SOLICITUD REINTEGRO"],w:"dp",tags:[["warn","Con costo"]],
   f:[["Solicita por SIGA","Indica el ciclo en que te reintegras y adjunta soportes."],["La Dirección de Programa estudia","Según tu historial académico."],["Recibes respuesta","Por el sistema."],["Si se aprueba, pagas","Se genera el recibo de derechos de reintegro."],["Recibo de matrícula","Confirmado el pago, se genera tu recibo de matrícula."]],
   k:["Se puede aprobar o rechazar.","El reintegro queda sujeto al plan de estudios vigente."]},
@@ -114,6 +114,31 @@ const T=[
   k:["Antes de solicitarla, asesórate con la Coordinación de Éxito Académico sobre tu ubicación semestral, número de créditos y viabilidad del trámite."]}
 ];
 const GUIA={"recuperatoria": "2doxzmtnps/web/Evaluacio%CC%81n%20Recuperatoria.png?v=476f69a9-5e0a-45e2-adbc-378afabf8d39", "supletorio": "lqo4zlgbal/web/Exa%CC%81men%20supletorio.png?v=9ec3258a-6765-4b1a-9d22-624312053059", "aplazamiento": "cjcgrrwuml/web/Aplazamiento%20de%20asignaturas.png?v=1c7d54ef-f222-47c3-8d95-66fe8faeba71", "cancelacion": "hborsas5oe/web/Cancelacio%CC%81n%20de%20asignaturas.png?v=d47933eb-aeb2-415f-9e6d-20de6af70ee8", "reserva": "pt4tipmkku/web/Reserva%20de%20cupo.png?v=b7b1db81-3ca0-47a0-b5a1-d8c7adfb814b", "cancelsem": "o0e3zwdrgn/web/Cancelacio%CC%81n%20de%20semestre%20y%20reserva%20de%20cupo.png?v=6932de16-9502-477f-a066-b8e53cd188c4", "reintegro": "7dmplkt66x/web/Reintegro.png?v=075247de-f099-46a9-a73f-e390ad0c0d93", "homologacion": "f0frng9d10/web/Homologacio%CC%81n%20de%20asignaturas.png?v=fe301e3d-031a-4637-bbeb-2f769f5422da", "prueba": "pzmkofrlz2/web/Peri%CC%81odo%20de%20prueba.png?v=41ce7e61-ea18-442b-86f1-68e08265c7a0", "creditos": "e5irg12vij/web/Matri%CC%81cula%20por%20cre%CC%81ditos.png?v=72b3a82b-3857-4e5e-90ec-cc9ee66fcaa1"};
+
+/* ---------- Radicar un trámite en SIGA ---------- */
+const RS=[
+ {s:"Petición de Trámites",t:"Entra a Petición de Trámites",intro:"Ingresa a SIGA Académico con tu usuario y contraseña institucionales.",acts:["En la página de inicio, busca el bloque <b>Trámites</b> y haz clic en <b>Petición de Trámites</b>."],img:[{src:"siga-inicio",cap:"Inicio de SIGA. Bloque Trámites, Petición de Trámites.",hot:[[35.6,40.6,10.2,2.6,1]]}]},
+ {s:"Grado y programa",t:"Elige tu grado y tu programa",intro:"Se abre la pantalla <b>Trámite de Solicitudes</b>. La institución y el ciclo lectivo se llenan solos.",acts:["En <b>Grado Académico</b> elige <b>Posgrado</b>.","En <b>Programa Académico</b> elige tu programa.","Haz clic en la lupa del campo <b>Trámite</b> para ver la lista de trámites."],img:[{src:"tr-form",cap:"Trámite de Solicitudes. Grado académico, programa y lupa de Trámite.",hot:[[23,31.1,27.3,2.7,1],[23,34.2,27.3,2.7,2],[23,40.7,11.2,2.7,3]]}]},
+ {s:"Busca el trámite",t:"Busca y elige el trámite",intro:"Se abre la ventana <b>Consultar Trámite</b> con los trámites disponibles para tu programa. La lista puede ser distinta a la de la imagen.",acts:["Si la lista es larga, cambia <b>Buscar por</b> a Descripción, escribe el comienzo del nombre (por ejemplo, SOLICITUD REINTEGRO) y haz clic en <b>Consultar</b>.","Haz clic en el código del trámite que necesitas. Usa el nombre exacto que aparece en esta guía."],img:[{src:"tr-lista",cap:"Consultar Trámite. Búsqueda y lista de trámites (ejemplo).",hot:[[20.7,4.4,63.1,3,1],[0.9,35.4,78.6,2.5,2]]}]},
+ {s:"Lee los requisitos",t:"Revisa el trámite y lee sus requisitos",intro:"Al elegir el trámite, SIGA muestra su nombre y los requisitos. El ejemplo es un reintegro. Cada trámite tiene sus propios requisitos.",acts:["Confirma que el nombre que aparece junto al código es el trámite que quieres.","Lee completos los <b>Requisitos para el trámite seleccionado</b>. Ahí se explica qué debes adjuntar y si tiene costo.","Si aparece <b>Información Adicional</b>, complétala (por ejemplo, el ciclo en que te reintegras o la asignatura del supletorio)."],img:[{src:"tr-requisitos",cap:"Trámite elegido, requisitos e información adicional (ejemplo de reintegro).",hot:[[23,40.7,30.6,2.7,1],[3.5,50.2,56.5,30.5,2],[3.5,82.4,60,5.5,3]]}]},
+ {s:"Argumenta y adjunta",t:"Argumenta, adjunta soportes y genera la solicitud",intro:"Antes de enviar, ten tus soportes escaneados en PDF. Una solicitud sin argumentos o sin soportes puede ser rechazada.",acts:["Completa la información adicional si el trámite la pide.","En <b>Detalle Trámite</b> explica con claridad qué pides y por qué.","Haz clic en <b>Añadir Anexo</b> para subir cada soporte. Con el botón <b>+</b> agregas otra fila para más archivos.","Revisa todo y haz clic en <b>Generar Solicitud</b>."],img:[{src:"tr-enviar",cap:"Información adicional, detalle, anexos y Generar Solicitud.",hot:[[4.2,56.3,57,3.4,1],[4.2,63.8,57.9,14.7,2],[64.6,87.9,11.2,2.9,3],[5.9,93.6,16,3.2,4]]}]},
+ {s:"Seguimiento",t:"Haz seguimiento al estado",intro:"La respuesta llega por el sistema. Revisa el estado en la página de inicio de SIGA, bloque <b>Trámites</b> › <b>Consulta de Trámites</b>.",acts:["Escribe <b>Fecha Inicial</b> y <b>Fecha Final</b> (mes/día/año). Son obligatorias. Si las dejas vacías, SIGA muestra un error.","Haz clic en <b>Consultar</b>.","Revisa la columna <b>Estado</b>. Por ejemplo, EN TRÁMITE, APROBADA, RECHAZADA o FINALIZADO."],img:[{src:"tr-consulta",cap:"Consulta de Trámites. Fechas, Consultar y estado de cada solicitud.",hot:[[26.5,46.8,35,2.7,1],[53.4,56.3,12.2,2.7,2],[51.7,62.5,14.4,37.5,3]]}]}
+];
+let rc=0; const rseen=new Set([0]);
+const rList=$("#rStepList"), rPanel=$("#rStepPanel");
+if(rList&&rPanel){
+ rList.innerHTML=RS.map((x,i)=>`<li><button type="button" role="tab" data-rs="${i}" aria-selected="${i===0}"><span>${esc(x.s)}</span></button></li>`).join("");
+ const renderR=()=>{const x=RS[rc],nx=RS[rc+1];
+  $$("#rStepList button").forEach((b,i)=>{b.setAttribute("aria-selected",String(i===rc));b.classList.toggle("seen",rseen.has(i)&&i!==rc)});
+  rPanel.innerHTML=`<div class="step-head"><span class="num">${rc+1}</span><div><span class="eyebrow">Paso ${rc+1} de ${RS.length}</span><h3>${esc(x.t)}</h3></div></div>
+  <div class="step-bar" aria-hidden="true"><i style="width:${(rc+1)/RS.length*100}%"></i></div>
+  <div class="cbody"><p>${x.intro}</p><div class="acts-box"><ol class="acts">${x.acts.map((a,i)=>`<li><span class="an">${i+1}</span><span>${a}</span></li>`).join("")}</ol></div>${window.FIN?x.img.map((im,i)=>window.FIN.figure(im,i)).join(""):""}</div>
+  <div class="nav"><button class="btn ghost" type="button" data-rnav="-1" ${rc===0?"disabled":""}>← Anterior</button><button class="btn" type="button" data-rnav="1">${nx?`Siguiente: ${esc(nx.s)} →`:"Volver al inicio ↺"}</button></div>`;};
+ document.addEventListener("click",e=>{const b=e.target.closest("[data-rs],[data-rnav]");if(!b)return;
+  if(b.dataset.rs!==undefined)rc=+b.dataset.rs;else rc=+b.dataset.rnav>0?(rc===RS.length-1?0:rc+1):Math.max(0,rc-1);
+  rseen.add(rc);renderR();if(b.dataset.rnav!==undefined)rPanel.scrollIntoView({behavior:"smooth",block:"nearest"});});
+ renderR();
+}
 const tabs=$("#tramTabs");
 tabs.innerHTML=T.map((t,i)=>`<button type="button" role="tab" id="tt-${t.id}" aria-selected="${i===0}">${esc(t.n)}</button>`).join("");
 const whoIcon=`<svg><use href="#i-people"/></svg>`;
@@ -121,7 +146,8 @@ function tramHTML(t,withId){
   return `<article class="tram"${withId?' id="tram-card"':''}>
    <div class="tram-top"><div style="min-width:0;flex:1 1 380px"><span class="eyebrow">Trámite</span><h3>${esc(t.n)}</h3><p class="when">${esc(t.when)}</p></div><div class="meta">${t.tags.map(g=>`<span class="tag ${g[0]}">${esc(g[1])}</span>`).join("")}${withId?`<button class="btn ghost sm" type="button" data-link="tramite-${t.id}"><svg><use href="#i-link"/></svg>Copiar enlace</button>`:""}</div></div>
    ${t.mail?`<div class="siga"><span class="lbl">CORREO</span><span class="last">posgradosfacultad.derecho@unisabana.edu.co</span></div>`:route(t.r)}
-   <ol class="flow">${t.f.map(s=>`<li><b>${esc(s[0])}</b><span>${esc(s[1])}</span></li>`).join("")}</ol>
+   <ol class="flow">${t.f.map((s,i)=>`<li><b>${esc(s[0])}</b><span>${esc(s[1])}${i===0&&!t.mail?` <a href="#radicar">Ver cómo ↑</a>`:""}</span></li>`).join("")}</ol>
+   ${t.img&&window.FIN?`<div class="tram-shot"><p class="tram-shot-h">${esc(t.imgH||"Así se ve en SIGA")}</p>${window.FIN.figure(t.img,0)}</div>`:""}
    <div class="tram-foot"><div class="callout"><b>Ten en cuenta</b><ul>${t.k.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>
    <div class="card" style="display:grid;gap:10px;align-content:start"><div class="who">${whoIcon}<span>Decide: <b>${who[t.w]}</b></span></div>
    ${GUIA[t.id]?`<a href="https://usabana.widen.net/content/${GUIA[t.id]}" target="_blank" rel="noopener">Guía oficial de este trámite ↗</a>`:""}
@@ -189,7 +215,7 @@ $("#dir").innerHTML=D.map(d=>`<article class="card" data-search="${esc(d.t+" "+d
 const F=[
  ["¿Cuándo recibo mi usuario y contraseña?","Cuando legalizas tu situación financiera o pagas la orden de matrícula. Llegan al correo personal que registraste en la admisión."],
  ["¿Puedo inscribir materias sin haber pagado la matrícula?","No. En posgrado debes tener la orden de matrícula pagada (o tu crédito legalizado) antes de inscribir asignaturas. Paga o solicita tu crédito con tiempo."],
- ["¿Dónde consulto mis notas?","En SIGA Académico, en Autoservicio › Mis Notas Parciales. También puedes revisar tu historia académica allí."],
+ ["¿Dónde consulto mis notas?","En la página de inicio de SIGA Académico, bloque Información Académica › Mis Notas Parciales. Tus notas finales y tu promedio están en el bloque Historia Académica (Mis Notas Definitivas y Estado, Promedio y Semestre)."],
  ["¿Cuál es la nota para aprobar?","3,5 sobre 5,0. Entre 3,0 y 3,4 puedes pedir evaluación recuperatoria. Por debajo de 3,0 repites la asignatura."],
  ["¿Cuántas faltas puedo tener?","Debes asistir como mínimo al 75 % de las sesiones de cada asignatura. Si no, la nota es 0,0. Para pedir supletorio no puedes haber superado el 25 % de inasistencias."],
  ["¿Cómo entro al campus?","Con el código QR de tu carné digital en la App UniSabana. Si agregas tu foto al perfil, también puedes entrar con reconocimiento facial."],

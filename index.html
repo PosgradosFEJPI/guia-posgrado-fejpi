@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:ital,wght@0,400..800;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/styles.css?v=10">
+<link rel="stylesheet" href="/styles.css?v=11">
 <script>try{var t=localStorage.getItem("gp_theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
@@ -160,7 +160,7 @@
         <div class="ico-badge"><svg><use href="#i-grid"/></svg></div>
         <h3>SIGA Académico</h3>
         <p>El autoservicio del estudiante. Aquí inscribes materias, consultas notas, ves tu historia académica, haces pagos y radicas todos los trámites.</p>
-        <div class="siga"><span class="lbl">SIGA</span>Autoservicio<span class="sep">›</span><span class="last">Mis Notas Parciales</span></div>
+        <div class="siga"><span class="lbl">SIGA</span>Información Académica<span class="sep">›</span><span class="last">Mis Notas Parciales</span></div>
         <div class="linkrow"><a href="https://sigaacademico.unisabana.edu.co" target="_blank" rel="noopener">Entrar a SIGA ↗</a><a href="#inscripcion">Inscribir materias</a></div>
       </article>
       <article class="card" data-search="correo institucional outlook doble factor autenticación">
@@ -372,6 +372,16 @@
       </div>
       <div class="answer" id="answer"></div>
     </div>
+
+    <div class="radicar" id="radicar" data-search="radicar trámite SIGA petición de trámites paso a paso generar solicitud anexos consulta de trámites estado">
+      <h3 class="radicar-h"><span class="fin-num">1</span>Cómo radicar un trámite en SIGA, paso a paso</h3>
+      <p class="muted">Sirve para todos los trámites que se piden por SIGA. Las pantallas son reales y los números rojos coinciden con cada acción. Toca una imagen para ampliarla.</p>
+      <div class="stepper">
+        <ol class="step-list" id="rStepList" role="tablist" aria-label="Pasos para radicar un trámite"></ol>
+        <div class="step-panel" id="rStepPanel" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+    <h3 class="radicar-h" style="margin-top:34px"><span class="fin-num">2</span>Requisitos y detalles de cada trámite</h3>
 
     <div class="tram-tabs" id="tramTabs" role="tablist" aria-label="Trámites"></div>
     <div id="tramPanel" role="tabpanel"></div>
@@ -783,7 +793,7 @@
 <button class="to-top" type="button" id="toTop" aria-label="Volver arriba" hidden><svg><use href="#i-up"/></svg></button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="/fin.js?v=10" defer></script>
-<script src="/app.js?v=10" defer></script>
+<script src="/fin.js?v=11" defer></script>
+<script src="/app.js?v=11" defer></script>
 </body>
 </html>

@@ -353,7 +353,7 @@ renderBecas();
 
 /* ---------- Índice de búsqueda para app.js ---------- */
 const strip=h=>h.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-window.FIN={idx:[],print:printAll};
+window.FIN={idx:[],print:printAll,figure};
 Object.keys(L).forEach(l=>lineSteps(l).forEach((x,i)=>{const txt=strip(x.intro(l)+" "+(x.acts?x.acts(l).join(" "):""));window.FIN.idx.push({sec:"Créditos y financiación",t:`${L[l].short} · Paso ${i+1}: ${x.t}`,txt,k:"credito financiacion "+L[l].n+" "+x.t+" "+txt,open:()=>goStep(l,i)})}));
 P.forEach(p=>window.FIN.idx.push({sec:"Pagos de matrícula",t:"Pagar: "+p.n,txt:strip(p.body),k:"pago pagar matricula "+p.n+" "+p.sub+" "+strip(p.body),open:()=>{pay=p.id;renderPay();return $("#payTabs")}}));
 window.FIN.printPrep=printAll;
