@@ -60,7 +60,7 @@ const S=[
   intro:l=>`<p>${esc(L[l].sum)}</p><p>Antes de cualquier trámite lee completa la <b>política de crédito</b> de tu línea. Allí están las condiciones, los plazos, los intereses y tus compromisos. La política es además uno de los documentos que vas a cargar, firmada por ti${l==="proy"?" y por tu codeudor":" y por tu codeudor si lo tienes"}.</p>`,
   acts:()=>["Entra a la página de Financiación directa de posgrados.","Busca tu línea y haz clic en <b>Instructivo y documentos</b>.","Descarga la política, léela completa y fírmala."],
   img:[{src:"web-credito",cap:"Página oficial de Financiación directa. Botón Instructivo y documentos.",hot:[[59,79,18,10,2]]}],
-  note:()=>`¿No sabes qué línea elegir? Usa el recomendador y el comparador de arriba.`,
+  note:()=>`¿No sabes qué línea elegir? Revisa el comparador de líneas, justo debajo de este paso a paso.`,
   links:l=>[["Política de crédito",L[l].pol],["Instructivo oficial",L[l].ins],["Financiación directa",U.directa]]},
  {id:"pago50",ph:0,only:["esp"],t:"Paga el 50 % de tu matrícula",s:"Pago del 50 %",
   intro:()=>`<p>En No Te Detengas Especial debes pagar <b>como mínimo el 50 % del valor de tu matrícula al menos 30 días antes del inicio de clases</b>. El otro 50 % es el que vas a financiar. Guarda el soporte de pago porque lo cargarás en la solicitud.</p><p>La forma más rápida es el pago parcial en SIGA.</p>`,
@@ -222,37 +222,6 @@ function renderCSteps(){
 function setLine(l,scroll){if(!L[l])return;line=l;store.set("gp_line",l);cs=0;seenC.clear();seenC.add(0);renderCSteps();renderDocs();if(scroll)$("#pasoapaso").scrollIntoView({behavior:"smooth",block:"start"})}
 function goStep(l,i){line=l;cs=i;seenC.add(i);renderCSteps();const p=$("#cStepPanel");p.classList.remove("hl-flash");void p.offsetWidth;p.classList.add("hl-flash");return $("#pasoapaso")}
 
-/* ---------- Recomendador ---------- */
-const Q=[
- {k:"como",q:"¿Cómo prefieres pagar?",o:[["sem","Todo durante el semestre"],["mitad","Una parte mientras estudio y otra al terminar"]]},
- {k:"mitad",q:"¿Puedes pagar al menos la mitad de tu matrícula 30 días antes de empezar clases?",o:[["si","Sí"],["no","No"]],when:a=>a.como!=="mitad"},
- {k:"pre",q:"¿Estás pagando un crédito de pregrado de mediano o largo plazo (directo o ICETEX)?",o:[["no","No"],["mas","Sí, ya pagué la mitad o más"],["menos","Sí, he pagado menos de la mitad"]]},
- {k:"ing",q:"¿Tienes ingresos propios que puedas certificar?",o:[["si","Sí"],["no","No"]]}
-];
-let ans=store.get("gp_reco",{});
-function recoResult(a){
-  const out=[];let note=[];
-  if(a.pre==="menos"){return{blocked:true,html:`<div class="reco-card bad"><span class="tag bad">Por ahora</span><h4>No puedes tomar un crédito directo para el posgrado</h4><p>Las políticas permiten un crédito de corto plazo solo cuando ya pagaste al menos el 50 % de tu crédito de pregrado de mediano o largo plazo. Mientras tanto, consulta las <a href="#creditos" data-scroll="externas">entidades externas</a> o escribe a solicitud.creditos@unisabana.edu.co.</p></div>`}}
-  if(a.como==="mitad"&&a.pre!=="mas"){out.push(["proy","Te conviene si quieres pagar la mitad al terminar materias. Recuerda que exige codeudor y un promedio acumulado de 3,8 para renovar cada semestre."]);out.push(["icetex","Alternativa de largo plazo. Pagas el 40 % durante los estudios y el 60 % después. No se puede combinar con Proyéctate."])}
-  else{
-    if(a.como==="mitad"&&a.pre==="mas")note.push("Como tienes un crédito de pregrado vigente, solo puedes tomar una línea de corto plazo. Proyéctate no está disponible para ti por ahora.");
-    if(a.como==="mitad"){out.push(["trad","Financias hasta el 100 % de tu matrícula en cuotas mensuales durante el semestre."]);out.push(["esp","Si puedes pagar la mitad 30 días antes de clases, difieres el resto sin intereses corrientes."])}
-    else if(a.mitad==="si"){out.push(["esp","Pagas la mitad antes de clases y el resto en cuotas mensuales sin intereses corrientes."]);out.push(["trad","Alternativa si prefieres financiar más del 50 %."])}
-    else{out.push(["trad","Financias hasta el 100 % de tu matrícula en cuotas mensuales durante el semestre."])}
-  }
-  const ntd=out.some(o=>o[0]==="esp"||o[0]==="trad");
-  if(ntd)note.push(a.ing==="si"?"Como certificas ingresos, en No Te Detengas puedes postularte como tu propio codeudor, siempre que no tengas reportes negativos en centrales de riesgo.":"Necesitarás un codeudor (familiar o persona externa) de máximo 70 años, con ingresos y residencia en Colombia, sin reportes negativos y con capacidad de endeudamiento.");
-  if(out.some(o=>o[0]==="proy"))note.push("En Proyéctate el codeudor es obligatorio. Puedes tener hasta dos, de máximo 65 años.");
-  const card=(o,i)=>o[0]==="icetex"?`<div class="reco-card"><span class="tag blue">Otra opción</span><h4>ICETEX Posgrado país</h4><p>${esc(o[1])}</p><a class="btn ghost sm" href="https://www.unisabana.edu.co/financiacion/financiacion-posgrado-credito-icetex" target="_blank" rel="noopener">Ver ICETEX ↗</a></div>`:`<div class="reco-card${i===0?" top":""}"><span class="tag ${i===0?"red":"blue"}">${i===0?"Te recomendamos":"Otra opción"}</span><h4>${esc(L[o[0]].n)}</h4><p>${esc(o[1])}</p><button type="button" class="btn${i===0?"":" ghost"} sm" data-goline="${o[0]}">Ver paso a paso →</button></div>`;
-  return{html:`<div class="reco-out">${out.map(card).join("")}</div>${note.length?`<div class="callout blue"><b>Sobre el codeudor y tu caso.</b><ul>${note.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></div>`:""}<p class="muted" style="font-size:.88rem">Esta es una orientación. La aprobación depende del estudio de crédito de Financiación Universitaria. También puedes acudir a Sufi o Crédito Fincomercio.</p>`};
-}
-function renderReco(){
-  const qs=Q.filter(q=>!q.when||q.when(ans));
-  const complete=qs.every(q=>ans[q.k]);
-  $("#reco").innerHTML=`<div class="reco-qs">${qs.map((q,i)=>`<fieldset class="reco-q"><legend><span class="rq-n">${i+1}</span>${esc(q.q)}</legend><div class="reco-opts">${q.o.map(o=>`<button type="button" data-rk="${q.k}" data-rv="${o[0]}" aria-pressed="${ans[q.k]===o[0]}">${esc(o[1])}</button>`).join("")}</div></fieldset>`).join("")}${Object.keys(ans).length?`<button type="button" class="reset" data-rreset>Empezar de nuevo</button>`:""}</div>
-  <div class="reco-res" aria-live="polite">${complete?recoResult(ans).html:`<div class="reco-wait"><svg><use href="#i-coin"/></svg><p>Responde las preguntas para ver tu recomendación.</p><small>${qs.filter(q=>ans[q.k]).length} de ${qs.length} respondidas</small></div>`}</div>`;
-}
-
 /* ---------- Estados ---------- */
 const ST=[
  ["EN TRÁMITE","blue","Tu solicitud quedó radicada y espera revisión."],
@@ -358,8 +327,6 @@ document.addEventListener("click",e=>{
   if((b=t.closest("[data-goline]"))){setLine(b.dataset.goline,true);return}
   if((b=t.closest("[data-cs]"))){cs=+b.dataset.cs;seenC.add(cs);renderCSteps();return}
   if((b=t.closest("[data-cnav]"))){const n=lineSteps(line).length;cs=+b.dataset.cnav>0?(cs===n-1?0:cs+1):Math.max(0,cs-1);seenC.add(cs);renderCSteps();$("#cStepPanel").scrollIntoView({behavior:"smooth",block:"nearest"});return}
-  if((b=t.closest("[data-rk]"))){ans[b.dataset.rk]=b.dataset.rv;if(b.dataset.rk==="como"&&b.dataset.rv==="mitad")delete ans.mitad;store.set("gp_reco",ans);renderReco();return}
-  if(t.closest("[data-rreset]")){ans={};store.set("gp_reco",ans);renderReco();return}
   if((b=t.closest("[data-dline]"))){setLine(b.dataset.dline);return}
   if((b=t.closest("[data-dwho]"))){dwho=b.dataset.dwho;store.set("gp_dwho",dwho);renderDocs();return}
   if((b=t.closest("[data-dinc]"))){dinc=b.dataset.dinc;store.set("gp_dinc",dinc);renderDocs();return}
@@ -378,7 +345,7 @@ function printAll(){
 window.addEventListener("beforeprint",printAll);
 
 /* ---------- Inicio ---------- */
-renderCmp();renderLineTabs();renderCSteps();renderReco();renderStates();renderDocs();renderPay();
+renderCmp();renderLineTabs();renderCSteps();renderStates();renderDocs();renderPay();
 $("#payFaq").innerHTML=PF.map(f=>`<details class="acc" data-search="${esc("pago electrónico "+f[0]+" "+f[1])}"><summary>${esc(f[0])}</summary><div class="acc-body"><p>${esc(f[1])}</p></div></details>`).join("");
 $("#becaGrid").innerHTML=B.map(becaHTML).join("");
 $("#becaHow").innerHTML=BHOW;

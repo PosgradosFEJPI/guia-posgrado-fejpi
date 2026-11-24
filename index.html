@@ -102,7 +102,7 @@
         <a href="#primeros-pasos"><span class="qi"><svg><use href="#i-flag"/></svg></span><b>Primeros pasos</b><small>No fui a la inducción. ¿Qué hago primero?</small></a>
         <a href="#inscripcion"><span class="qi"><svg><use href="#i-pencil"/></svg></span><b>Inscribir cursos</b><small>Los 9 pasos en SIGA, con pantallas.</small></a>
         <a href="#tramites"><span class="qi"><svg><use href="#i-route"/></svg></span><b>¿Qué hago si…?</b><small>Encuentra el trámite para tu caso.</small></a>
-        <a href="#creditos" class="fin wide"><span class="qi"><svg><use href="#i-coin"/></svg></span><b>Créditos y financiación</b><small>Elige tu crédito y sigue la solicitud pantalla por pantalla.</small></a>
+        <a href="#pasoapaso" class="fin wide"><span class="qi"><svg><use href="#i-coin"/></svg></span><b>Créditos y financiación</b><small>Paso a paso de la solicitud, pantalla por pantalla.</small></a>
         <a href="#contactos" class="sos"><span class="qi"><svg><use href="#i-phone"/></svg></span><b>Contactos</b><small>Facultad, servicios y emergencias.</small></a>
       </div>
     </nav>
@@ -392,31 +392,18 @@
     <div class="sec-head">
       <span class="eyebrow">Financiación Universitaria</span>
       <h2>Créditos para <em>pagar tu posgrado</em></h2>
-      <p><b>Recuerda que sin la matrícula pagada no puedes inscribir asignaturas.</b> Si necesitas financiarla, solicita tu crédito con tiempo para que esté legalizado antes de la inscripción. Puedes financiar tu matrícula con un <b>crédito directo de la Universidad</b>, con <b>ICETEX</b> o con una <b>entidad externa</b>. Aquí te explicamos cómo funciona cada opción y cómo se solicita, pantalla por pantalla.</p>
+      <p><b>Recuerda que sin la matrícula pagada no puedes inscribir asignaturas.</b> Si necesitas financiarla, solicita tu crédito con tiempo para que esté legalizado antes de la inscripción. Puedes financiar tu matrícula con un <b>crédito directo de la Universidad</b>, con <b>ICETEX</b> o con una <b>entidad externa</b>. Empieza por el <b>paso a paso de la solicitud</b>: te lleva pantalla por pantalla desde la preparación hasta el pago de tus cuotas.</p>
     </div>
 
-    <div class="callout blue fin-note" data-search="tasas valores fechas crédito vigentes página oficial">
-      <b>Tasas, valores y fechas.</b> Cambian cada periodo y por eso no aparecen en esta guía. Consúltalos siempre en la página oficial de Financiación Universitaria antes de solicitar tu crédito.
-      <div class="linkrow"><a href="https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados" target="_blank" rel="noopener">Financiación directa ↗</a><a href="https://www.unisabana.edu.co/financiacion" target="_blank" rel="noopener">Financiación (inicio) ↗</a></div>
-    </div>
-
-    <!-- Recomendador -->
-    <div class="fin-block">
-      <div class="fin-sub"><span class="fin-num">1</span><div><h3>¿Qué crédito me conviene?</h3><p class="muted">Responde cuatro preguntas y te mostramos las opciones que encajan contigo.</p></div></div>
-      <div class="reco" id="reco" data-search="qué crédito me conviene recomendador elegir crédito financiar matrícula"></div>
-    </div>
-
-    <!-- Comparador -->
-    <div class="fin-block">
-      <div class="fin-sub"><span class="fin-num">2</span><div><h3>Compara las líneas de crédito</h3><p class="muted">Solo condiciones. Toca el nombre de una línea para ver su paso a paso.</p></div></div>
-      <div class="tbl cmp-wrap" data-search="comparar créditos no te detengas especial tradicional proyéctate icetex plazo codeudor renovación póliza pagaré">
-        <table class="cmp" id="cmpTable"></table>
-      </div>
-    </div>
 
     <!-- Paso a paso -->
-    <div class="fin-block" id="pasoapaso">
-      <div class="fin-sub"><span class="fin-num">3</span><div><h3>Paso a paso de la solicitud</h3><p class="muted">Elige tu línea. Las capturas son de la plataforma oficial. El recuadro rojo te muestra dónde hacer clic. Toca una imagen para ampliarla.</p></div></div>
+    <div class="fin-block paso-hero" id="pasoapaso">
+      <div class="paso-banner">
+        <span class="paso-kicker">Lo más importante de esta sección</span>
+        <div class="fin-sub"><span class="fin-num">1</span><div><h3>Paso a paso para solicitar tu crédito</h3><p>Sigue los pasos <b>en orden y sin saltarte ninguno</b>. Una solicitud incompleta o con documentos faltantes se devuelve y retrasa la aprobación. Recuerda que <b>sin la matrícula pagada o el crédito legalizado no puedes inscribir asignaturas</b>.</p></div></div>
+        <ol class="paso-phases" aria-label="Fases del proceso"><li><b>1</b><span>Prepárate</span></li><li><b>2</b><span>Solicita en la plataforma</span></li><li><b>3</b><span>Firma el pagaré</span></li><li><b>4</b><span>Paga tus cuotas</span></li></ol>
+        <p class="paso-how">Elige tu línea de crédito. Las capturas son de la plataforma oficial. Los círculos rojos numerados coinciden con las acciones de cada paso. Toca una imagen para ampliarla.</p>
+      </div>
       <div class="line-tabs" id="lineTabs" role="tablist" aria-label="Líneas de crédito"></div>
       <div class="cstepper">
         <ol class="step-list" id="cStepList" role="tablist" aria-label="Pasos de la solicitud"></ol>
@@ -425,21 +412,34 @@
       <div class="print-only" id="printSteps"></div>
     </div>
 
+    <div class="callout blue fin-note" data-search="tasas valores fechas crédito vigentes página oficial">
+      <b>Tasas, valores y fechas.</b> Cambian cada periodo y por eso no aparecen en esta guía. Consúltalos siempre en la página oficial de Financiación Universitaria antes de solicitar tu crédito.
+      <div class="linkrow"><a href="https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados" target="_blank" rel="noopener">Financiación directa ↗</a><a href="https://www.unisabana.edu.co/financiacion" target="_blank" rel="noopener">Financiación (inicio) ↗</a></div>
+    </div>
+
+    <!-- Comparador -->
+    <div class="fin-block">
+      <div class="fin-sub"><span class="fin-num">2</span><div><h3>Compara las líneas de crédito</h3><p class="muted">Solo condiciones. Toca el nombre de una línea para volver a su paso a paso.</p></div></div>
+      <div class="tbl cmp-wrap" data-search="comparar créditos no te detengas especial tradicional proyéctate icetex plazo codeudor renovación póliza pagaré">
+        <table class="cmp" id="cmpTable"></table>
+      </div>
+    </div>
+
     <!-- Estados -->
     <div class="fin-block">
-      <div class="fin-sub"><span class="fin-num">4</span><div><h3>Estados de tu solicitud</h3><p class="muted">Después de terminar la solicitud, revisa el estado en la plataforma de créditos.</p></div></div>
+      <div class="fin-sub"><span class="fin-num">3</span><div><h3>Estados de tu solicitud</h3><p class="muted">Después de terminar la solicitud, revisa el estado en la plataforma de créditos.</p></div></div>
       <div class="states" id="states" data-search="estados solicitud crédito en trámite devuelto preaprobado pendiente pagaré firma legalizado promedio deuda"></div>
     </div>
 
     <!-- Documentos -->
     <div class="fin-block">
-      <div class="fin-sub"><span class="fin-num">5</span><div><h3>¿Qué documentos necesito?</h3><p class="muted">Elige tu línea y la situación de tu codeudor. Marca cada documento cuando lo tengas listo en PDF.</p></div></div>
+      <div class="fin-sub"><span class="fin-num">4</span><div><h3>¿Qué documentos necesito?</h3><p class="muted">Elige tu línea y la situación de tu codeudor. Marca cada documento cuando lo tengas listo en PDF.</p></div></div>
       <div class="docs card" id="docs" data-search="documentos crédito codeudor certificado ingresos laboral pensionado independiente contador cédula póliza formulario asegurabilidad soporte pago"></div>
     </div>
 
     <!-- ICETEX y externas -->
     <div class="fin-block" id="externas">
-      <div class="fin-sub"><span class="fin-num">6</span><div><h3>ICETEX y entidades externas</h3><p class="muted">Otras formas de financiar tu posgrado. El estudio y la aprobación los hace cada entidad.</p></div></div>
+      <div class="fin-sub"><span class="fin-num">5</span><div><h3>ICETEX y entidades externas</h3><p class="muted">Otras formas de financiar tu posgrado. El estudio y la aprobación los hace cada entidad.</p></div></div>
       <div class="grid g2">
         <article class="card" data-search="ICETEX tú eliges posgrado país 40 60 medicina crédito largo plazo calendario formularios">
           <span class="tag blue">ICETEX</span>
@@ -475,7 +475,7 @@
 
     <!-- Reglas clave -->
     <div class="fin-block">
-      <div class="fin-sub"><span class="fin-num">7</span><div><h3>Reglas que debes conocer</h3><p class="muted">Tomadas de las políticas de crédito vigentes. Léelas completas antes de firmar.</p></div></div>
+      <div class="fin-sub"><span class="fin-num">6</span><div><h3>Reglas que debes conocer</h3><p class="muted">Tomadas de las políticas de crédito vigentes. Léelas completas antes de firmar.</p></div></div>
       <details class="acc" data-search="pago cuotas día 5 cada mes mora restricción servicios centrales de riesgo cobranza">
         <summary>Pagos, mora y cobranza</summary>
         <div class="acc-body"><ul>

@@ -154,7 +154,7 @@ const S=[
  ["Ya cursé materias en otro posgrado","homologacion","Pide la homologación por SIGA con contenidos programáticos y notas. Se puede homologar hasta el 50 % del plan."],
  ["Mi promedio acumulado bajó de 3,5","prueba","Perdiste el derecho de permanencia, pero puedes pedir un periodo de prueba por SIGA. La Comisión de Facultad decide."],
  ["No puedo tomar la carga completa de créditos","creditos","Solicita matrícula por créditos por correo a la Facultad. Antes, asesórate con la Coordinación de Éxito Académico."],
- ["Necesito financiar mi matrícula",null,"Usa el recomendador de la sección Créditos y financiación. Te muestra qué línea encaja contigo y el paso a paso de la solicitud con las pantallas de la plataforma oficial.",[["Ver créditos","#creditos"],["Cómo pagar la matrícula","#pagos"]]],
+ ["Necesito financiar mi matrícula",null,"Compara las líneas de crédito y sigue el paso a paso de la solicitud, con las pantallas de la plataforma oficial. Hazlo con tiempo, porque sin la matrícula pagada o el crédito legalizado no puedes inscribir asignaturas.",[["Paso a paso del crédito","#pasoapaso"],["Cómo pagar la matrícula","#pagos"]]],
  ["No sé cómo inscribir mis materias",null,"Primero verifica que tu matrícula esté pagada, porque sin ese pago no puedes inscribir asignaturas. Luego sigue la guía de inscripción paso a paso con los números de clase de tu horario.",[["Ir a la guía","#inscripcion"],["Cómo pagar","#pagos"]]],
  ["No me deja inscribir materias",null,"La causa más común es que la matrícula no está pagada o el crédito aún no está legalizado. Revisa tu orden de matrícula en SIGA y, si ya pagaste, escribe a la Coordinación de Éxito Académico.",[["Cómo pagar","#pagos"],["Estado de mi crédito","#states"]]]
 ];
@@ -275,7 +275,7 @@ $$(".chip[data-q]").forEach(c=>c.addEventListener("click",()=>{q.value=c.dataset
 
 /* ---------- Paleta de búsqueda (Ctrl K) ---------- */
 const pal=$("#palette"),pq=$("#pq"),pres=$("#presults");
-const popular=["crédito","pagar matrícula","beca","supletorio","notas","cancelar asignatura","wifi","asesor"];
+const popular=["solicitar crédito","pagar matrícula","beca","supletorio","notas","cancelar asignatura","wifi","asesor"];
 const hint=`<div class="hint">Búsquedas frecuentes:</div>`+popular.map(p=>`<a href="#" data-pop="${p}"><span class="r-t">${p}</span></a>`).join("");
 const showPal=wire(pq,pres,{inline:false,hint});
 pres.addEventListener("click",e=>{const a=e.target.closest("[data-pop]");if(!a)return;e.preventDefault();pq.value=a.dataset.pop;showPal();pq.focus()});
