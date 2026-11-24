@@ -8,7 +8,7 @@ const route=(parts,lbl)=>`<div class="siga"><span class="lbl">${lbl||"SIGA"}</sp
 const IMG="/img/fin/", IV="?v=8";
 const U={
  directa:"https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados",
- plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/",
+ plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/mensajes.jsp?NoSolicitud=31413",
  siga:"https://sigaacademico.unisabana.edu.co/psp/CS90PRO/?&cmd=login&languageCd=ESP&",
  polNTD:"https://usabana.widen.net/s/6bbbfqnzhf/politicas-de-credito-no-te-detengas-tradicional-y-especial",
  polProy:"https://usabana.widen.net/s/7kmkvfzh5b/pol.-linea-credito-proyectate-v-9.0-01-may-26-2",
@@ -86,8 +86,8 @@ const S=[
   acts:()=>[],
   note:()=>`<a href="#docs" data-scroll="docs">Abre la lista de documentos para tu caso ↓</a> y marca cada uno cuando lo tengas.`},
  {id:"ingreso",ph:1,t:"Entra a la plataforma de créditos",s:"Ingreso",
-  intro:()=>`<p>Las solicitudes se hacen en una plataforma aparte de SIGA, pero entras con el <b>mismo usuario y contraseña de SIGA</b>. Si eres estudiante nuevo, al inscribirte recibes en tu correo unas credenciales temporales.</p>`,
-  acts:()=>["En la página de inicio de SIGA, bloque <b>Solicitud de créditos</b>, haz clic en <b>Formulario solicitud de créditos</b>. También puedes abrir la plataforma directamente.","Escribe tu usuario y tu contraseña.","Haz clic en <b>Ingrese</b>."],
+  intro:()=>`<p>Las solicitudes se hacen en la <b>plataforma de créditos</b>, que es distinta a SIGA Académico, pero entras con el <b>mismo usuario y contraseña de SIGA</b>. Si eres estudiante nuevo, al inscribirte recibes en tu correo unas credenciales temporales.</p>`,
+  acts:()=>["En la página de inicio de SIGA, bloque <b>Solicitud de créditos</b>, haz clic en <b>Formulario solicitud de créditos</b>. También puedes abrir la plataforma directamente con el botón <b>Abrir la plataforma de créditos</b> que está al final de este paso.","Escribe tu usuario y tu contraseña.","Haz clic en <b>Ingrese</b>."],
   img:[{src:"siga-inicio",cap:"Inicio de SIGA. Formulario solicitud de créditos.",hot:[[68.6,30.2,17,4.2,1]]},{src:"plataforma-login",cap:"Plataforma de créditos. Usuario, contraseña e Ingrese.",hot:[[32.5,66,35,15,2],[32.5,83,35,6.5,3]]}],
   note:()=>`Si no puedes entrar, llama al 861 5555 ext. 34444 (Service Desk).`,
   links:()=>[["Abrir la plataforma de créditos",U.plataforma]]},

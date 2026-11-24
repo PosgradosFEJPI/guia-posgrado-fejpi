@@ -660,3 +660,6 @@ ol.acts .an{flex:none;width:24px;height:24px;border-radius:50%;background:#E5132
 .shot-btn{overflow:visible}
 .hot.has-n.n-in::after{right:auto;left:6px}
 .hot.has-n.n-in::after{left:auto;right:6px}
+
+.paso-cta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:16px 0 4px}
+.paso-cta-note{font-size:.88rem;color:var(--muted);max-width:52ch}
