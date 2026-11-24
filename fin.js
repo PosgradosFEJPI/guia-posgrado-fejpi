@@ -5,7 +5,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const route=(parts,lbl)=>`<div class="siga"><span class="lbl">${lbl||"SIGA"}</span>${parts.map((p,i)=>i===parts.length-1?`<span class="last">${esc(p)}</span>`:`${esc(p)}<span class="sep">›</span>`).join("")}</div>`;
-const IMG="/img/fin/";
+const IMG="/img/fin/", IV="?v=7";
 const U={
  directa:"https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados",
  plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/",
@@ -67,7 +67,7 @@ const S=[
   intro:()=>`<p>En No Te Detengas Especial debes pagar <b>como mínimo el 50 % del valor de tu matrícula al menos 30 días antes del inicio de clases</b>. El otro 50 % es el que vas a financiar. Guarda el soporte de pago porque lo cargarás en la solicitud.</p><p>La forma más rápida es el pago parcial en SIGA.</p>`,
   route:["Menú Principal","Autoservicio","Finanzas del Campus","Realización de Pagos"],
   acts:()=>["En la página de inicio de SIGA, bloque <b>Finanzas del Alumnado</b>, haz clic en <b>Realización de Pagos</b>.","Marca la casilla de tu <b>orden de matrícula</b>.","En <b>Pagos Parciales</b> elige <b>Pago Parcial</b> y escribe el valor que vas a pagar.","Elige el medio de pago (PSE o tarjeta de crédito) y haz clic en <b>Pago en línea</b>."],
-  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Finanzas del Alumnado, Realización de Pagos.",hot:[[69.5,48.8,10.5,3.2,1]]},{src:"siga-pagos-1",cap:"Marca la orden de matrícula. Abajo aparece Pagos Parciales.",hot:[[3.3,14.5,3,5,2],[1,69.5,44.5,25,3]]},{src:"siga-pagos-2",cap:"Pago Parcial, Valor a Pagar, medio de pago y Pago en línea.",hot:[[4,18.5,41,12,3],[3,57,42,33,4]]}],
+  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Finanzas del Alumnado, Realización de Pagos.",hot:[[69.5,48.8,10.5,3.2,1]]},{src:"siga-pagos-1",cap:"Marca la orden de matrícula. Abajo aparece Pagos Parciales.",hot:[[3.3,14.5,3,5,2],[1,69.5,44.5,25,3]]},{src:"siga-pagos-2",cap:"Pago Parcial, Valor a Pagar, medio de pago y Pago en línea.",hot:[[4,22.5,42,9.5,3],[3,57,42,33,4]]}],
   note:()=>`También puedes pagar en la Tesorería (edificio O) o en Bancolombia, cuenta de ahorros 20058996304, convenio 507, con tu ID de estudiante como referencia.`,
   links:()=>[["Instructivo de pagos parciales",U.parciales]]},
  {id:"poliza",ph:0,t:"Genera y paga la póliza de seguro de vida",s:"Póliza de vida",
@@ -189,14 +189,14 @@ const S=[
  {id:"cuota",ph:3,t:"Paga tus cuotas cada mes",s:"Pagar cuota",
   intro:()=>`<p>Las cuotas vencen el <b>día 5 de cada mes</b> y empiezan el mes siguiente a tu solicitud.</p>`,
   acts:()=>["En <b>Créditos Otorgados</b> haz clic en <b>Pagar Cuota</b>.","Marca <b>Seleccionar para pago</b> o usa <b>Pagar valor diferente</b> si quieres abonar otro valor.","Elige el medio de pago (PSE, tarjeta de crédito o imprimir recibo) y termina el pago."],
-  img:[{src:"siga-creditos",cap:"Créditos Otorgados. Pagar Cuota e Histórico de Pagos.",hot:[[76.2,64,7.5,9,1]]},{src:"pago-en-linea",cap:"Pagar Cuota. Selección y medio de pago.",hot:[[3,34,22,6,2],[2,64,40,15,3]]}],
+  img:[{src:"siga-creditos",cap:"Créditos Otorgados. Pagar Cuota e Histórico de Pagos.",hot:[[75.8,56.5,8.6,10.5,1]]},{src:"pago-en-linea",cap:"Pagar Cuota. Selección y medio de pago.",hot:[[3,34,22,6,2],[2,64,40,15,3]]}],
   note:()=>`En <b>Histórico de Pagos</b> ves los pagos que ya hiciste. Si tienes dificultades para pagar, escribe a tiempo a cartera.financiacion@unisabana.edu.co.`}
 ];
 const lineSteps=l=>S.filter(x=>!x.only||x.only.includes(l));
 let line=store.get("gp_line","esp"); if(!L[line])line="esp";
 let cs=0; const seenC=new Set([0]);
 const hotHTML=h=>`<i class="hot${h[4]?" has-n":""}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"${h[4]?` data-n="${h[4]}"`:""}></i>`;
-const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp" alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(hotHTML).join("")}</span><span class="zoom-hint" aria-hidden="true">Ampliar</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
+const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp${IV}" alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(hotHTML).join("")}</span><span class="zoom-hint" aria-hidden="true">Ampliar</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
 function stepBody(x,l){
   const imgs=typeof x.img==="function"?x.img(l):(x.img||[]);
   const links=x.links?x.links(l):[];
@@ -312,7 +312,7 @@ const lb=document.createElement("div");lb.className="lightbox";lb.hidden=true;lb
 lb.innerHTML=`<div class="lb-box"><button type="button" class="lb-x" aria-label="Cerrar">✕</button><div class="lb-img"></div><p class="lb-cap"></p></div>`;
 document.body.appendChild(lb);
 let lbLast=null;
-function openLB(b){lbLast=b;const hot=JSON.parse(b.dataset.hot||"[]");$(".lb-img",lb).innerHTML=`<img src="${IMG+b.dataset.zoom}.webp" alt="">${hot.map(hotHTML).join("")}`;$(".lb-cap",lb).textContent=b.dataset.cap;lb.hidden=false;document.body.style.overflow="hidden";$(".lb-x",lb).focus()}
+function openLB(b){lbLast=b;const hot=JSON.parse(b.dataset.hot||"[]");$(".lb-img",lb).innerHTML=`<img src="${IMG+b.dataset.zoom}.webp${IV}" alt="">${hot.map(hotHTML).join("")}`;$(".lb-cap",lb).textContent=b.dataset.cap;lb.hidden=false;document.body.style.overflow="hidden";$(".lb-x",lb).focus()}
 function closeLB(){if(lb.hidden)return;lb.hidden=true;document.body.style.overflow="";if(lbLast)lbLast.focus({preventScroll:true})}
 lb.addEventListener("click",e=>{if(e.target===lb||e.target.closest(".lb-x"))closeLB()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLB()});
