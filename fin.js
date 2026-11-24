@@ -5,7 +5,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const route=(parts,lbl)=>`<div class="siga"><span class="lbl">${lbl||"SIGA"}</span>${parts.map((p,i)=>i===parts.length-1?`<span class="last">${esc(p)}</span>`:`${esc(p)}<span class="sep">›</span>`).join("")}</div>`;
-const IMG="/img/fin/", IV="?v=7";
+const IMG="/img/fin/", IV="?v=8";
 const U={
  directa:"https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados",
  plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/",
@@ -60,7 +60,7 @@ const S=[
  {id:"politica",ph:0,t:"Elige tu línea y lee la política de crédito",s:"Política de crédito",
   intro:l=>`<p>${esc(L[l].sum)}</p><p>Antes de cualquier trámite lee completa la <b>política de crédito</b> de tu línea. Allí están las condiciones, los plazos, los intereses y tus compromisos. La política es además uno de los documentos que vas a cargar, firmada por ti y por tu codeudor.</p>`,
   acts:()=>["Entra a la página de Financiación directa de posgrados.","Busca tu línea y haz clic en <b>Instructivo y documentos</b>.","Descarga la política, léela completa y fírmala."],
-  img:[{src:"web-credito",cap:"Página oficial de Financiación directa. Botón Instructivo y documentos.",hot:[[59,79,18,10,2]]}],
+  img:[{src:"web-credito",cap:"Página oficial de Financiación directa. Botón Instructivo y documentos.",hot:[[63,82.5,14,8,2]]}],
   note:()=>`¿No sabes qué línea elegir? Revisa el comparador de líneas, justo debajo de este paso a paso.`,
   links:l=>[["Política de crédito",L[l].pol],["Instructivo oficial",L[l].ins],["Financiación directa",U.directa]]},
  {id:"pago50",ph:0,only:["esp"],t:"Paga el 50 % de tu matrícula",s:"Pago del 50 %",
@@ -104,7 +104,7 @@ const S=[
  {id:"f1",ph:1,t:"Formulario, paso 1 de 7 · Datos personales",s:"1 · Datos personales",
   intro:()=>`<p>Tus datos básicos ya aparecen cargados. Completa o corrige los demás.</p>`,
   acts:()=>["Revisa y diligencia celular, correo, estado civil, país, ciudad y dirección de residencia.","Haz clic en <b>Siguiente</b>."],
-  img:[{src:"form-datos",cap:"Paso 1, Datos Personales.",hot:[[20,70,76,24,1],[83,94,10,6,2]]}],
+  img:[{src:"form-datos",cap:"Paso 1, Datos Personales.",hot:[[20,69,76,24,1],[89,95.5,7.5,4.5,2]]}],
   note:()=>`Los campos marcados con asterisco (*) son obligatorios. El botón Siguiente no avanza si falta alguno.`},
  {id:"f2",ph:1,t:"Formulario, paso 2 de 7 · Crédito",s:"2 · Crédito",
   intro:l=>`<p>Aquí eliges qué crédito solicitas, para qué periodo y por cuánto.</p>`,
@@ -137,8 +137,8 @@ const S=[
   note:()=>`Al hacer clic en Terminar todavía falta cargar los documentos. La solicitud no queda radicada hasta el siguiente paso.`},
  {id:"cargar",ph:1,t:"Carga los documentos",s:"Cargar documentos",
   intro:()=>`<p>Verás el <b>Listado de documentos</b>. Los que dicen <b>(Documento requerido)</b> son obligatorios. Cárgalos uno por uno.</p>`,
-  acts:()=>["Haz clic en <b>Browse</b> y elige el archivo PDF.","Haz clic en <b>Upload</b> para subirlo. Repite con cada documento.","Cuando todos los requeridos estén cargados se habilita <b>Terminar</b>. Haz clic allí."],
-  img:[{src:"documentos",cap:"Listado de documentos. Browse, Upload y Terminar.",hot:[[90.5,40.5,9.5,5.5,1],[84,40.5,6.5,5.5,2],[88,89.5,10,6,3]]}],
+  acts:()=>["En cada documento usa los botones de la derecha. Haz clic en <b>Browse</b> para elegir el PDF y luego en <b>Upload</b> para subirlo. Si te equivocaste de archivo, usa <b>Remove</b>.","Repite con cada documento. Los que dicen (Documento requerido) son obligatorios.","Cuando todos los requeridos estén cargados se habilita <b>Terminar</b>. Haz clic allí."],
+  img:[{src:"documentos",cap:"Listado de documentos. Botones Remove, Upload y Browse, y al final Terminar.",hot:[[79.5,40,20.5,6,1],[88,89.5,10,6,3]]}],
   note:()=>`No adjuntes nada en el campo <b>Plan de pagos</b>. Ese espacio es para Financiación Universitaria.`},
  {id:"tramite",ph:1,t:"Confirma que la solicitud quedó EN TRÁMITE",s:"En trámite",
   intro:()=>`<p>Si todo salió bien, verás el mensaje <b>Proceso exitoso</b> y volverás al listado de solicitudes.</p>`,
@@ -195,7 +195,7 @@ const S=[
 const lineSteps=l=>S.filter(x=>!x.only||x.only.includes(l));
 let line=store.get("gp_line","esp"); if(!L[line])line="esp";
 let cs=0; const seenC=new Set([0]);
-const hotHTML=h=>`<i class="hot${h[4]?" has-n":""}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"${h[4]?` data-n="${h[4]}"`:""}></i>`;
+const hotHTML=h=>`<i class="hot${h[4]?" has-n":""}${h[2]>80?" n-in":h[0]<7?" n-right":""}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"${h[4]?` data-n="${h[4]}"`:""}></i>`;
 const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp${IV}" alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(hotHTML).join("")}</span><span class="zoom-hint" aria-hidden="true">Ampliar</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
 function stepBody(x,l){
   const imgs=typeof x.img==="function"?x.img(l):(x.img||[]);
