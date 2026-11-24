@@ -5,7 +5,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 const route=(parts,lbl)=>`<div class="siga"><span class="lbl">${lbl||"SIGA"}</span>${parts.map((p,i)=>i===parts.length-1?`<span class="last">${esc(p)}</span>`:`${esc(p)}<span class="sep">›</span>`).join("")}</div>`;
-const IMG="/img/fin/", IV="?v=8";
+const IMG="/img/fin/", IV="?v=9";
 const U={
  directa:"https://www.unisabana.edu.co/financiacion/financiacion-posgrados/financiacion-directa-posgrados",
  plataforma:"https://sigaacademico.unisabana.edu.co:8055/Ayudas/",
@@ -196,7 +196,9 @@ const lineSteps=l=>S.filter(x=>!x.only||x.only.includes(l));
 let line=store.get("gp_line","esp"); if(!L[line])line="esp";
 let cs=0; const seenC=new Set([0]);
 const hotHTML=h=>`<i class="hot${h[4]?" has-n":""}${h[2]>80?" n-in":h[0]<7?" n-right":""}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"${h[4]?` data-n="${h[4]}"`:""}></i>`;
-const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp${IV}" alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(hotHTML).join("")}</span><span class="zoom-hint" aria-hidden="true">Ampliar</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
+const DIM={"deceval-captcha":[2000,934],"deceval-clave":[1538,624],"deceval-codigo":[1412,694],"deceval-correo":[734,1096],"deceval-firmar":[1734,1126],"deceval-lista":[2000,689],"deceval-sms":[1500,1894],"documentos":[1806,1334],"en-tramite":[2000,960],"form-credito":[2000,611],"form-datos":[2000,1071],"formulario-asegurabilidad":[1600,934],"lista-lineas":[646,696],"lista-periodos":[662,706],"pagare-exitoso":[1740,958],"pago-en-linea":[1612,926],"parcial-1":[1156,880],"parcial-2":[1136,632],"parcial-3":[1144,880],"parcial-4":[1180,716],"parcial-5":[1152,880],"plan-pagos":[1842,904],"plataforma-login":[1600,1340],"realizar-solicitud":[1936,298],"siga-becas-form":[1600,770],"siga-becas":[1710,890],"siga-carrito":[1260,1000],"siga-compras":[1400,450],"siga-creditos":[2000,456],"siga-inicio":[2000,1263],"siga-listado":[1714,852],"siga-pagos-1":[1600,780],"siga-pagos-2":[1600,570],"tr-consulta":[1600,1456],"tr-devol":[1600,1360],"tr-enviar":[1600,1520],"tr-form":[1600,1606],"tr-lista":[1110,1454],"tr-requisitos":[1600,1606],"web-credito":[1600,728]};
+const wh=s=>DIM[s]?` width="${DIM[s][0]}" height="${DIM[s][1]}"`:"";
+const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp${IV}"${wh(im.src)} alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(hotHTML).join("")}</span><span class="zoom-hint" aria-hidden="true">Ampliar</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
 function stepBody(x,l){
   const imgs=typeof x.img==="function"?x.img(l):(x.img||[]);
   const links=x.links?x.links(l):[];
@@ -338,7 +340,7 @@ document.addEventListener("scroll",e=>{const tr=e.target;if(!(tr instanceof Elem
 
 /* ---------- Imprimir ---------- */
 function printAll(){
-  $("#printSteps").innerHTML=Object.keys(L).map(l=>`<h3 class="p-line">Paso a paso · ${esc(L[l].n)}</h3>`+lineSteps(l).map((x,i)=>`<div class="p-step"><h4>${i+1}. ${esc(x.t)}</h4>${stepBody(x,l)}</div>`).join("")).join("");
+  $("#printSteps").innerHTML=`<p class="p-note">Este PDF incluye el paso a paso de la línea <b>${esc(L[line].n)}</b>. Si necesitas otra línea, elígela en la guía antes de descargar el PDF.</p>`+[line].map(l=>`<h3 class="p-line">Paso a paso · ${esc(L[l].n)}</h3>`+lineSteps(l).map((x,i)=>`<div class="p-step"><h4>${i+1}. ${esc(x.t)}</h4>${stepBody(x,l)}</div>`).join("")).join("");
   $("#printPays").innerHTML=P.map(p=>payHTML(p)).join("");
 }
 window.addEventListener("beforeprint",printAll);
@@ -353,7 +355,7 @@ renderBecas();
 
 /* ---------- Índice de búsqueda para app.js ---------- */
 const strip=h=>h.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-window.FIN={idx:[],print:printAll,figure};
+window.FIN={idx:[],print:printAll,figure,wh};
 Object.keys(L).forEach(l=>lineSteps(l).forEach((x,i)=>{const txt=strip(x.intro(l)+" "+(x.acts?x.acts(l).join(" "):""));window.FIN.idx.push({sec:"Créditos y financiación",t:`${L[l].short} · Paso ${i+1}: ${x.t}`,txt,k:"credito financiacion "+L[l].n+" "+x.t+" "+txt,open:()=>goStep(l,i)})}));
 P.forEach(p=>window.FIN.idx.push({sec:"Pagos de matrícula",t:"Pagar: "+p.n,txt:strip(p.body),k:"pago pagar matricula "+p.n+" "+p.sub+" "+strip(p.body),open:()=>{pay=p.id;renderPay();return $("#payTabs")}}));
 window.FIN.printPrep=printAll;

@@ -70,7 +70,7 @@ function renderStep(){
   $$("#stepList button").forEach((b,i)=>{b.setAttribute("aria-selected",String(i===cur));b.classList.toggle("seen",seen.has(i)&&i!==cur)});
   $("#stepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cur+1)}</span><div><span class="eyebrow">Paso ${cur+1} de ${ins.length}</span><h3>${esc(x.t)}</h3></div></div>
   <div class="step-bar" aria-hidden="true"><i style="width:${(cur+1)/ins.length*100}%"></i></div>
-  <p>${x.d}</p>${x.route?route(x.route):""}${x.warn?`<div class="callout"><b>Ojo:</b> ${esc(x.warn)}</div>`:""}${x.img?`<figure class="shot"><button type="button" class="shot-btn" data-zoom="${x.img[0]}" data-cap="${esc(x.img[1])}" data-hot='${JSON.stringify(x.img[2])}' aria-label="Ampliar"><span class="shot-img"><img src="/img/fin/${x.img[0]}.webp?v=8" alt="${esc(x.img[1])}" loading="lazy">${x.img[2].map(h=>`<i class="hot has-n${h[2]>80?" n-in":h[0]<7?" n-right":""}" data-n="${h[4]||1}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"></i>`).join("")}</span></button><figcaption>${esc(x.img[1])}</figcaption></figure>`:x.m?`<div class="mock" aria-hidden="true">${x.m}</div>`:""}${x.link?`<div><a class="btn ghost" href="${x.link[1]}" target="_blank" rel="noopener">${esc(x.link[0])} ↗</a></div>`:""}
+  <p>${x.d}</p>${x.route?route(x.route):""}${x.warn?`<div class="callout"><b>Ojo:</b> ${esc(x.warn)}</div>`:""}${x.img?`<figure class="shot"><button type="button" class="shot-btn" data-zoom="${x.img[0]}" data-cap="${esc(x.img[1])}" data-hot='${JSON.stringify(x.img[2])}' aria-label="Ampliar"><span class="shot-img"><img src="/img/fin/${x.img[0]}.webp?v=9"${window.FIN?window.FIN.wh(x.img[0]):""} alt="${esc(x.img[1])}" loading="lazy">${x.img[2].map(h=>`<i class="hot has-n${h[2]>80?" n-in":h[0]<7?" n-right":""}" data-n="${h[4]||1}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"></i>`).join("")}</span></button><figcaption>${esc(x.img[1])}</figcaption></figure>`:x.m?`<div class="mock" aria-hidden="true">${x.m}</div>`:""}${x.link?`<div><a class="btn ghost" href="${x.link[1]}" target="_blank" rel="noopener">${esc(x.link[0])} ↗</a></div>`:""}
   <div class="nav"><button class="btn ghost" type="button" id="prevS" ${cur===0?"disabled":""}>← Anterior</button><button class="btn" type="button" id="nextS">${cur===ins.length-1?"Volver al inicio":"Siguiente →"}</button></div>`;
   $("#prevS").onclick=()=>{if(cur>0){cur--;seen.add(cur);renderStep()}};
   $("#nextS").onclick=()=>{cur=cur===ins.length-1?0:cur+1;seen.add(cur);renderStep()};
@@ -328,7 +328,16 @@ function toggleTheme(){const next=isDark()?"light":"dark";root.setAttribute("dat
 let openedForPrint=[];
 function preparePrint(){
   $("#printTrams").innerHTML=`<h3 style="margin:8px 0 12px">Todos los trámites</h3>`+T.map(t=>tramHTML(t,false)).join("");
+  const pr=$("#printRad"); if(pr&&window.FIN) pr.innerHTML=RS.map((x,i)=>`<div class="p-step"><h4>${i+1}. ${esc(x.t)}</h4><p>${x.intro}</p><div class="acts-box"><ol class="acts">${x.acts.map((a,j)=>`<li><span class="an">${j+1}</span><span>${a}</span></li>`).join("")}</ol></div>${x.img.map((im,j)=>window.FIN.figure(im,j)).join("")}</div>`).join("");
+  if(window.FIN&&window.FIN.printPrep) window.FIN.printPrep();
+  $$("img[loading=lazy]").forEach(i=>i.loading="eager");
   openedForPrint=$$("details.acc:not([open])");openedForPrint.forEach(d=>d.open=true);
+}
+async function printNow(){
+  preparePrint(); toast("Preparando el PDF con todas las imágenes…");
+  const imgs=$$("img").filter(i=>!i.complete);
+  await Promise.race([Promise.all(imgs.map(i=>new Promise(r=>{i.addEventListener("load",r,{once:true});i.addEventListener("error",r,{once:true})}))),new Promise(r=>setTimeout(r,8000))]);
+  window.print();
 }
 function restorePrint(){openedForPrint.forEach(d=>d.open=false);openedForPrint=[]}
 window.addEventListener("beforeprint",preparePrint);
@@ -347,7 +356,7 @@ document.addEventListener("click",e=>{
   if(a){const act=a.dataset.action;
     if(act==="palette")openPalette();
     else if(act==="theme")toggleTheme();
-    else if(act==="print"){preparePrint();window.print()}
+    else if(act==="print"){printNow()}
     else if(act==="share")shareGuide();
     return}
   const l=e.target.closest("[data-link]");

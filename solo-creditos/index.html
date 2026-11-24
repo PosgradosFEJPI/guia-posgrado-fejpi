@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:ital,wght@0,400..800;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@500;600&display=swap">
-<link rel="stylesheet" href="/styles.css?v=11">
+<link rel="stylesheet" href="/styles.css?v=12">
 <script>try{var t=localStorage.getItem("gp_theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 
 <style>
@@ -230,7 +230,7 @@
 <div class="solo-hidden" aria-hidden="true"><div id="payTabs"></div><div id="payPanel"></div><div id="printPays"></div><div id="payFaq"></div><div id="becaHow"></div><div id="becaFilter"></div><div id="becaGrid"></div></div>
 <footer class="wrap"><div class="inner" style="padding:24px 0;text-align:center;font-size:.85rem;color:var(--muted)">Universidad de La Sabana · Facultad de Estudios Jurídicos, Políticos e Internacionales · Coordinación de Posgrados</div></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="/fin.js?v=11" defer></script>
+<script src="/fin.js?v=12" defer></script>
 <script>
 (function(){
  const $=s=>document.querySelector(s);
@@ -241,7 +241,7 @@
   const c=e.target.closest(".copy");
   if(c){try{await navigator.clipboard.writeText(c.dataset.copy);c.textContent="Copiado";toast("Copiado: "+c.dataset.copy)}catch(err){c.textContent="No se pudo copiar"}setTimeout(()=>c.textContent="Copiar",1800);return}
   const a=e.target.closest("[data-action]");
-  if(a){if(a.dataset.action==="theme"){const n=isDark()?"light":"dark";root.setAttribute("data-theme",n);try{localStorage.setItem("gp_theme",n)}catch(err){}}else if(a.dataset.action==="print"){window.print()}}
+  if(a){if(a.dataset.action==="theme"){const n=isDark()?"light":"dark";root.setAttribute("data-theme",n);try{localStorage.setItem("gp_theme",n)}catch(err){}}else if(a.dataset.action==="print"){if(window.FIN&&window.FIN.printPrep)window.FIN.printPrep();document.querySelectorAll("img[loading=lazy]").forEach(i=>i.loading="eager");toast("Preparando el PDF con todas las imágenes…");const im=[...document.images].filter(i=>!i.complete);Promise.race([Promise.all(im.map(i=>new Promise(r=>{i.onload=i.onerror=r}))),new Promise(r=>setTimeout(r,8000))]).then(()=>window.print())}}
   const t=e.target.closest("[data-toggle-all]");
   if(t){const ds=[...document.querySelectorAll("details.acc")];const o=ds.some(d=>!d.open);ds.forEach(d=>d.open=o)}
  });
