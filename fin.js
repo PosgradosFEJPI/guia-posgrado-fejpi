@@ -53,68 +53,156 @@ function renderCmp(){
 }
 
 /* ---------- Paso a paso ---------- */
+const PH=["Prepárate antes de solicitar","Solicita en la plataforma de créditos","Aprobación y firma del pagaré","Paga tus cuotas"];
+const stepHot=x=>[[x-6,25,12,18,1]];
 const S=[
- {id:"politica",t:"Lee la política y el instructivo",s:"Política",
-  d:l=>`<p>${esc(L[l].sum)}</p><p>Lee completa la <b>política de crédito</b> de tu línea. La debes <b>firmar tú y tu codeudor</b> (si lo tienes) porque es uno de los documentos que cargarás. Encuéntrala en la página de Financiación directa, botón <b>Instructivo y documentos</b>.</p>`,
-  img:[{src:"web-credito",cap:"Página oficial de Financiación directa. Haz clic en Instructivo y documentos.",hot:[[59,79,18,10]]}],
+ {id:"politica",ph:0,t:"Elige tu línea y lee la política de crédito",s:"Política de crédito",
+  intro:l=>`<p>${esc(L[l].sum)}</p><p>Antes de cualquier trámite lee completa la <b>política de crédito</b> de tu línea. Allí están las condiciones, los plazos, los intereses y tus compromisos. La política es además uno de los documentos que vas a cargar, firmada por ti${l==="proy"?" y por tu codeudor":" y por tu codeudor si lo tienes"}.</p>`,
+  acts:()=>["Entra a la página de Financiación directa de posgrados.","Busca tu línea y haz clic en <b>Instructivo y documentos</b>.","Descarga la política, léela completa y fírmala."],
+  img:[{src:"web-credito",cap:"Página oficial de Financiación directa. Botón Instructivo y documentos.",hot:[[59,79,18,10,2]]}],
+  note:()=>`¿No sabes qué línea elegir? Usa el recomendador y el comparador de arriba.`,
   links:l=>[["Política de crédito",L[l].pol],["Instructivo oficial",L[l].ins],["Financiación directa",U.directa]]},
- {id:"pago50",only:["esp"],t:"Paga el 50 % de tu matrícula",s:"Pago del 50 %",
-  d:()=>`<p>Para esta línea debes pagar <b>como mínimo el 50 % del valor de tu matrícula al menos 30 días antes del inicio de clases</b>. Guarda el soporte porque lo cargarás con tu solicitud. Tienes tres formas de hacerlo.</p><ul><li><b>En SIGA, con pago parcial.</b> Marca la orden de matrícula, elige <b>Pago Parcial</b>, escribe el valor y paga en línea.</li><li><b>En la Tesorería</b> del campus (edificio O).</li><li><b>En Bancolombia.</b> Transferencia a la cuenta de ahorros 20058996304 (NIT 860 075 558) a nombre de la Universidad de La Sabana, o por ventanilla con el convenio 507. En la referencia escribe tu ID de estudiante.</li></ul>`,
+ {id:"pago50",ph:0,only:["esp"],t:"Paga el 50 % de tu matrícula",s:"Pago del 50 %",
+  intro:()=>`<p>En No Te Detengas Especial debes pagar <b>como mínimo el 50 % del valor de tu matrícula al menos 30 días antes del inicio de clases</b>. El otro 50 % es el que vas a financiar. Guarda el soporte de pago porque lo cargarás en la solicitud.</p><p>La forma más rápida es el pago parcial en SIGA.</p>`,
   route:["Menú Principal","Autoservicio","Finanzas del Campus","Realización de Pagos"],
-  img:[{src:"siga-pagos-1",cap:"Realización de Pagos en SIGA. Marca tu orden de matrícula.",hot:[[2.5,56.9,3.6,3.8],[1.1,85.4,40,13]]},{src:"siga-pagos-2",cap:"Elige Pago Parcial, escribe el valor y escoge el medio de pago.",hot:[[3.2,42.4,13.2,12.9],[2.9,73.4,36.1,10.8]]},{src:"parcial-3",cap:"Ejemplo del instructivo oficial con Pago Parcial y el valor."}],
+  acts:()=>["En la página de inicio de SIGA, bloque <b>Finanzas del Alumnado</b>, haz clic en <b>Realización de Pagos</b>.","Marca la casilla de tu <b>orden de matrícula</b>.","En <b>Pagos Parciales</b> elige <b>Pago Parcial</b> y escribe el valor que vas a pagar.","Elige el medio de pago (PSE o tarjeta de crédito) y haz clic en <b>Pago en línea</b>."],
+  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Finanzas del Alumnado, Realización de Pagos.",hot:[[69.5,48.8,10.5,3.2,1]]},{src:"siga-pagos-1",cap:"Marca la orden de matrícula. Abajo aparece Pagos Parciales.",hot:[[3.3,14.5,3,5,2],[1,69.5,44.5,25,3]]},{src:"siga-pagos-2",cap:"Pago Parcial, Valor a Pagar, medio de pago y Pago en línea.",hot:[[4,18.5,41,12,3],[3,57,42,33,4]]}],
+  note:()=>`También puedes pagar en la Tesorería (edificio O) o en Bancolombia, cuenta de ahorros 20058996304, convenio 507, con tu ID de estudiante como referencia.`,
   links:()=>[["Instructivo de pagos parciales",U.parciales]]},
- {id:"poliza",t:"Compra y paga la póliza de seguro de vida",s:"Póliza",
-  d:()=>`<p>La póliza de seguro de vida es <b>obligatoria</b> para legalizar el crédito. Genérala en SIGA así:</p><ol class="mini"><li>En la página de inicio de SIGA, en el bloque <b>Finanzas del Alumnado</b>, entra a <b>Compras Varias</b>.</li><li>Busca el artículo <b>POLIZA SEGURO VIDA</b> del ciclo lectivo que vas a financiar y en <b>Cantidad</b> escribe <b>1</b>.</li><li>Baja hasta el final y haz clic en <b>Siguiente</b>.</li><li>Vuelve a <b>Finanzas del Alumnado</b>, entra a <b>Realización de Pagos</b> y paga en línea o descarga el recibo.</li></ol><p>También puedes pagarla por transferencia o ventanilla de Bancolombia (cuenta de ahorros 20058996304, convenio 507, con tu ID de estudiante como referencia). Guarda el soporte.</p>`,
-  img:[{src:"siga-inicio",cap:"Inicio de SIGA. En Finanzas del Alumnado están Compras Varias y Realización de Pagos.",hot:[[68.2,46.6,8.2,3.2],[68.5,52.3,10.0,3.4]]},{src:"siga-compras",cap:"Compras Varias. Busca POLIZA SEGURO VIDA y escribe 1 en Cantidad.",hot:[[2.3,85,25.5,6.4],[76.1,85.7,10,6.1]]}],
+ {id:"poliza",ph:0,t:"Genera y paga la póliza de seguro de vida",s:"Póliza de vida",
+  intro:()=>`<p>La póliza de seguro de vida es <b>obligatoria</b> para legalizar cualquier crédito directo. Se genera como una compra en SIGA y luego se paga.</p>`,
+  acts:()=>["En la página de inicio de SIGA, bloque <b>Finanzas del Alumnado</b>, haz clic en <b>Compras Varias</b>.","Busca el artículo <b>POLIZA SEGURO VIDA</b> del ciclo lectivo que vas a financiar.","En <b>Cantidad</b> escribe <b>1</b>, baja hasta el final y haz clic en <b>Siguiente</b>.","Vuelve a <b>Finanzas del Alumnado</b>, entra a <b>Realización de Pagos</b> y paga la póliza en línea o descarga el recibo."],
+  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Compras Varias y Realización de Pagos.",hot:[[69.5,43.6,8.5,3.2,1],[69.5,48.8,10.5,3.2,4]]},{src:"siga-compras",cap:"Compras Varias. Artículo POLIZA SEGURO VIDA y campo Cantidad.",hot:[[2.5,76,18,7.5,2],[76.8,76,9.5,8,3]]}],
+  note:()=>`También puedes pagarla por transferencia o ventanilla de Bancolombia (cuenta de ahorros 20058996304, convenio 507, con tu ID de estudiante). Guarda el soporte de pago.`,
   links:l=>[["Instructivo de la póliza",L[l].poliza],["Entrar a SIGA",U.siga]]},
- {id:"asegurabilidad",only:["proy"],t:"Diligencia el formulario de asegurabilidad",s:"Asegurabilidad",
-  d:()=>`<p>Solo para Proyéctate. Descarga el formulario y diligencia <b>únicamente los campos resaltados</b>.</p><ul><li><b>Datos del asegurado principal.</b> Son tus datos como estudiante. Las fechas van en formato AA MM DD. En departamento escribe el código numérico (por ejemplo, Cundinamarca es 25).</li><li><b>Beneficiarios del seguro.</b> El beneficiario eres tú. No diligencies las columnas de parentesco ni de porcentaje.</li><li><b>Cuestionario de asegurabilidad.</b> Respóndelo completo.</li><li>Firma como en tu documento de identidad y escribe la fecha en que lo diligenciaste.</li></ul>`,
-  img:[{src:"formulario-asegurabilidad",cap:"Formulario de asegurabilidad (MetLife). Diligencia solo los campos resaltados."}],
+ {id:"asegurabilidad",ph:0,only:["proy"],t:"Diligencia el formulario de asegurabilidad",s:"Asegurabilidad",
+  intro:()=>`<p>Solo para Proyéctate. Descarga el formulario de MetLife y diligencia <b>únicamente los campos resaltados</b>.</p>`,
+  acts:()=>["<b>Datos del asegurado principal.</b> Son tus datos como estudiante. Las fechas van en formato AA MM DD y en departamento escribe el código numérico (Cundinamarca es 25).","<b>Beneficiarios del seguro.</b> El beneficiario eres tú. No llenes las columnas de parentesco ni de porcentaje.","<b>Cuestionario de asegurabilidad.</b> Respóndelo completo.","Firma como en tu documento de identidad, escribe la fecha y guárdalo en PDF."],
+  img:[{src:"formulario-asegurabilidad",cap:"Formulario de asegurabilidad con los campos que debes diligenciar."}],
   links:()=>[["Descargar el formulario",U.formato]]},
- {id:"ingreso",t:"Entra a la plataforma de créditos",s:"Ingreso",
-  d:()=>`<p>Desde la página de inicio de SIGA, en el bloque <b>Solicitud de créditos</b>, haz clic en <b>Formulario solicitud de créditos</b>. También puedes abrir la plataforma directamente. Ingresa con tu <b>usuario y contraseña de SIGA</b>. Si eres estudiante nuevo, al inscribirte recibes en tu correo unas credenciales temporales. Si tienes problemas para entrar, llama al 861 5555 ext. 34444.</p>`,
-  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Bloque Solicitud de créditos, Formulario solicitud de créditos.",hot:[[68.0,32.3,16.5,3.8]]},{src:"plataforma-login",cap:"Plataforma de créditos. Escribe usuario y contraseña y haz clic en Ingrese.",hot:[[32.7,63.3,34.6,16.2],[32.7,81,34.6,6.2]]}],
+ {id:"reunir",ph:0,t:"Reúne tus documentos en PDF",s:"Documentos listos",
+  intro:l=>`<p>Antes de entrar a la plataforma ten todos los documentos escaneados en <b>PDF</b>, legibles y completos. Los documentos de identidad van por ambas caras. Así no tendrás que interrumpir la solicitud.</p><ul><li>Documento de identidad del estudiante.</li><li>Política de crédito firmada.</li><li>Soporte de pago de la póliza.</li>${l==="esp"?"<li>Soporte de pago del 50 % de la matrícula.</li>":""}${l==="proy"?"<li>Formulario de asegurabilidad firmado.</li>":""}<li>Documentos del codeudor (o tuyos si eres tu propio codeudor), según si es empleado, independiente o pensionado.</li></ul>`,
+  acts:()=>[],
+  note:()=>`<a href="#docs" data-scroll="docs">Abre la lista de documentos para tu caso ↓</a> y marca cada uno cuando lo tengas.`},
+ {id:"ingreso",ph:1,t:"Entra a la plataforma de créditos",s:"Ingreso",
+  intro:()=>`<p>Las solicitudes se hacen en una plataforma aparte de SIGA, pero entras con el <b>mismo usuario y contraseña de SIGA</b>. Si eres estudiante nuevo, al inscribirte recibes en tu correo unas credenciales temporales.</p>`,
+  acts:()=>["En la página de inicio de SIGA, bloque <b>Solicitud de créditos</b>, haz clic en <b>Formulario solicitud de créditos</b>. También puedes abrir la plataforma directamente.","Escribe tu usuario y tu contraseña.","Haz clic en <b>Ingrese</b>."],
+  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Formulario solicitud de créditos.",hot:[[68.6,30.2,17,4.2,1]]},{src:"plataforma-login",cap:"Plataforma de créditos. Usuario, contraseña e Ingrese.",hot:[[32.5,66,35,15,2],[32.5,83,35,6.5,3]]}],
+  note:()=>`Si no puedes entrar, llama al 861 5555 ext. 34444 (Service Desk).`,
   links:()=>[["Abrir la plataforma de créditos",U.plataforma]]},
- {id:"datos",t:"Verifica tus datos",s:"Tus datos",
-  d:()=>`<p>En <b>Información actual</b> revisa tu documento, nombre, correo, celular y dirección. Si cambiaste de tipo de documento, comunícate con Registro Académico y Contabilidad para actualizarlo antes de seguir.</p>`,
-  img:[{src:"siga-listado",cap:"Listado de solicitudes. Revisa tu información actual.",hot:[[18,52,79,33]]}]},
- {id:"realizar",t:"Haz clic en Realizar solicitud",s:"Nueva solicitud",
-  d:()=>`<p>Abajo, en <b>Listado de solicitudes</b>, haz clic en el botón verde <b>Realizar solicitud</b>.</p>`,
-  img:[{src:"realizar-solicitud",cap:"Botón verde Realizar solicitud.",hot:[[1,56,21,36]]}]},
- {id:"personales",t:"Completa tus datos personales",s:"Datos personales",
-  d:()=>`<p>Diligencia tus datos personales. Los campos marcados con asterisco (*) son obligatorios. Luego haz clic en <b>Siguiente</b>.</p>`,
-  img:[{src:"form-datos",cap:"Paso 1 del formulario, Datos Personales.",hot:[[20,70,76,24],[83,94,10,6]]}]},
- {id:"credito",t:"Elige la línea, el periodo y el monto",s:"Crédito",
-  d:l=>`<p>En <b>Tipo de crédito</b> elige <b>${esc(L[l].opt)}</b>. En <b>Periodo académico</b> elige el periodo que vas a financiar. En <b>Monto a financiar</b> escribe el valor total que vas a financiar según tu línea. Autoriza el uso de tus datos y haz clic en <b>Siguiente</b>.</p>${l==="esp"?`<p class="muted">En Especial, el monto es el saldo que te queda después de pagar el 50 %.</p>`:""}`,
-  img:l=>[{src:"form-credito",cap:"Paso 2 del formulario, Crédito.",hot:[[22,51,25,9],[48,51,25,9],[74,51,25,9],[92,82,8,9]]},{src:"lista-lineas",cap:`Lista de líneas. Elige ${L[l].opt}.`,hot:[hotLine[l]]}]},
- {id:"formulario",t:"Completa el resto del formulario",s:"Formulario",
-  d:l=>`<p>El formulario tiene siete pasos. Después de Crédito siguen <b>Información laboral, Información familiar, Referencias deudor, Información codeudores y Referencias codeudores</b>. Diligencia todo y en el paso 7 haz clic en <b>Terminar</b>.</p>${l==="proy"?`<div class="callout"><b>Proyéctate siempre exige codeudor.</b> Puedes registrar hasta dos. Cada uno debe tener máximo 65 años, residir y tener ingresos en Colombia, no tener reportes negativos en centrales de riesgo y contar con capacidad de endeudamiento. No puedes ser tu propio codeudor.</div>`:`<div class="callout blue"><b>¿Serás tu propio codeudor?</b> En No Te Detengas puedes postularte como tu codeudor si certificas ingresos. En ese caso, en <b>Datos codeudor</b> escribe de nuevo tu propia información. Si tendrás un codeudor, debe tener máximo 70 años, residir y tener ingresos en Colombia, no tener reportes negativos y contar con capacidad de endeudamiento.</div>`}`,
-  img:[{src:"form-credito",cap:"Los siete pasos del formulario aparecen en la parte superior.",hot:[[20,24,79,19]]}]},
- {id:"documentos",t:"Carga los documentos",s:"Documentos",
-  d:()=>`<p>Para cada documento haz clic en <b>Browse</b>, elige el archivo y luego haz clic en <b>Upload</b>. Los que dicen <b>(Documento requerido)</b> son obligatorios. Cuando subas todos, se habilita el botón <b>Terminar</b>.</p><ul><li>Carga cada documento en PDF, legible y completo.</li><li>Los documentos de identidad van por ambas caras.</li><li>No adjuntes nada en el campo <b>Plan de pagos</b>. Ese espacio es para Financiación Universitaria.</li></ul><p><a href="#docs" data-scroll="docs">Revisa la lista de documentos para tu caso ↓</a></p>`,
-  img:[{src:"documentos",cap:"Listado de documentos. Browse para elegir el archivo, Upload para subirlo y Terminar al final.",hot:[[84,40.5,16,5.5],[88,89.5,10,6]]}]},
- {id:"tramite",t:"Confirma que quede EN TRÁMITE",s:"En trámite",
-  d:()=>`<p>Al terminar verás el mensaje <b>Proceso exitoso</b>. En el listado de solicitudes tu crédito debe aparecer con el estado <b>EN TRÁMITE</b>. Desde ahora revisa el estado en esta plataforma y tu correo.</p><p><a href="#states" data-scroll="states">¿Qué significa cada estado? ↓</a></p>`,
-  img:[{src:"en-tramite",cap:"La solicitud aparece con estado EN TRÁMITE.",hot:[[82,94,9,5.5],[44,15,54,12]]}]},
- {id:"pagare",t:"Firma el pagaré electrónico",s:"Pagaré",
-  d:()=>`<p>Cuando tu crédito sea aprobado, recibirás un correo de <b>administrador@pagares.bvc.com.co</b> (Deceval). <b>Tú y tu codeudor</b> deben firmar cada uno el pagaré desmaterializado.</p><ol class="mini"><li>En el correo haz clic en <b>Portal firma</b>.</li><li>Escribe el texto del captcha y haz clic en <b>Autenticar Código OTP</b>.</li><li>En <b>Lista de Pagarés a Firmar</b> haz clic en la lupa de la columna <b>Detalle</b>.</li><li>Revisa el pagaré y haz clic en <b>Firmar</b>.</li><li>Crea una clave temporal que cumpla los criterios y haz clic en <b>Enviar No. Referencia</b>.</li><li>Escribe en <b>Código Referencia</b> el código que te llega por correo o mensaje de texto y haz clic en <b>Firmar</b>.</li><li>Recibirás la confirmación y una copia del pagaré en PDF. La clave del PDF es tu número de documento.</li></ol>`,
-  img:[{src:"deceval-correo",cap:"1. Correo de Deceval. Haz clic en Portal firma.",hot:[[38,50,26,5]]},{src:"deceval-captcha",cap:"2. Escribe el captcha y autentica.",hot:[[61,71,21,7],[50,81,19,8]]},{src:"deceval-lista",cap:"3. Haz clic en la lupa de Detalle.",hot:[[89,70,7,14]]},{src:"deceval-firmar",cap:"4. Revisa el pagaré y haz clic en Firmar."},{src:"deceval-clave",cap:"5. Crea tu clave temporal y envía el número de referencia.",hot:[[31,47,29,20],[2,70.5,18,8]]},{src:"deceval-sms",cap:"6a. El código de referencia llega por correo o SMS."},{src:"deceval-codigo",cap:"6b. Escribe el código y haz clic en Firmar.",hot:[[18,36,33,8.5],[1,88,10,9]]},{src:"pagare-exitoso",cap:"7. Confirmación de firma exitosa."}],
+ {id:"datos",ph:1,t:"Verifica tus datos personales",s:"Tus datos",
+  intro:()=>`<p>Al entrar verás el <b>Listado de solicitudes</b>. Arriba, en <b>Información actual</b>, aparecen tu documento, nombre, celular, correo y dirección.</p>`,
+  acts:()=>["Revisa que tu información actual sea correcta."],
+  img:[{src:"siga-listado",cap:"Listado de solicitudes. Información actual.",hot:[[18,52,79,33,1]]}],
+  note:()=>`Si cambiaste de tipo de documento, comunícate con Registro Académico y Contabilidad para actualizarlo antes de seguir.`},
+ {id:"realizar",ph:1,t:"Inicia una nueva solicitud",s:"Realizar solicitud",
+  intro:()=>`<p>Más abajo, en la sección <b>Listado de solicitudes</b>, está el botón para crear tu solicitud.</p>`,
+  acts:()=>["Haz clic en el botón verde <b>Realizar solicitud</b>."],
+  img:[{src:"realizar-solicitud",cap:"Botón verde Realizar solicitud.",hot:[[1,56,21,36,1]]}],
+  note:()=>`Se abre el <b>Formulario de solicitud</b>, que tiene siete pasos. Arriba verás en qué paso vas.`},
+ {id:"f1",ph:1,t:"Formulario, paso 1 de 7 · Datos personales",s:"1 · Datos personales",
+  intro:()=>`<p>Tus datos básicos ya aparecen cargados. Completa o corrige los demás.</p>`,
+  acts:()=>["Revisa y diligencia celular, correo, estado civil, país, ciudad y dirección de residencia.","Haz clic en <b>Siguiente</b>."],
+  img:[{src:"form-datos",cap:"Paso 1, Datos Personales.",hot:[[20,70,76,24,1],[83,94,10,6,2]]}],
+  note:()=>`Los campos marcados con asterisco (*) son obligatorios. El botón Siguiente no avanza si falta alguno.`},
+ {id:"f2",ph:1,t:"Formulario, paso 2 de 7 · Crédito",s:"2 · Crédito",
+  intro:l=>`<p>Aquí eliges qué crédito solicitas, para qué periodo y por cuánto.</p>`,
+  acts:l=>[`En <b>Tipo de crédito</b> abre la lista y elige <b>${esc(L[l].opt)}</b>.`,"En <b>Periodo académico</b> elige el periodo que vas a financiar.",`En <b>Monto a financiar</b> escribe el valor total que vas a financiar${l==="esp"?" (el saldo que queda después de tu pago del 50 %)":""}.`,"Marca <b>¿Autoriza el uso de sus datos?</b> y haz clic en <b>Siguiente</b>."],
+  img:l=>[{src:"form-credito",cap:"Paso 2, Crédito.",hot:[[22,51,25,9,1],[48,51,25,9,2],[74,51,25,9,3],[92,82,8,9,4]]},{src:"lista-lineas",cap:`Lista de líneas. Elige ${L[l].opt}.`,hot:[hotLine[l].concat(1)]},{src:"lista-periodos",cap:"Lista de periodos académicos.",hot:[]}],
+  note:()=>`Verifica muy bien la línea y el periodo. Si eliges una línea equivocada, la solicitud será devuelta.`},
+ {id:"f3",ph:1,t:"Formulario, paso 3 de 7 · Información laboral",s:"3 · Laboral",
+  intro:()=>`<p>Registra tu situación laboral como deudor. Si trabajas, incluye los datos de tu empleo actual y tus ingresos. Si eres independiente o pensionado, indícalo.</p>`,
+  acts:()=>["Diligencia todos los campos obligatorios de información laboral.","Haz clic en <b>Siguiente</b>."],
+  img:[{src:"form-credito",cap:"El paso 3 es Información Laboral.",hot:stepHot(49)}],
+  note:()=>`Si eres tu propio codeudor, lo que registres aquí debe coincidir con el certificado de ingresos que vas a cargar.`},
+ {id:"f4",ph:1,t:"Formulario, paso 4 de 7 · Información familiar",s:"4 · Familiar",
+  intro:()=>`<p>Registra la información de tu núcleo familiar que te pide el formulario.</p>`,
+  acts:()=>["Diligencia todos los campos obligatorios.","Haz clic en <b>Siguiente</b>."],
+  img:[{src:"form-credito",cap:"El paso 4 es Información Familiar.",hot:stepHot(60)}]},
+ {id:"f5",ph:1,t:"Formulario, paso 5 de 7 · Referencias del deudor",s:"5 · Referencias",
+  intro:()=>`<p>Escribe las referencias que te pide el formulario. Son personas que te conocen y a las que Financiación Universitaria puede contactar.</p>`,
+  acts:()=>["Registra los datos de contacto de tus referencias.","Haz clic en <b>Siguiente</b>."],
+  img:[{src:"form-credito",cap:"El paso 5 es Referencias Deudor.",hot:stepHot(71)}],
+  note:()=>`Avisa a tus referencias que pueden llamarlas.`},
+ {id:"f6",ph:1,t:"Formulario, paso 6 de 7 · Información del codeudor",s:"6 · Codeudor",
+  intro:l=>l==="proy"?`<p>En Proyéctate el codeudor es <b>obligatorio</b> y puedes registrar hasta dos. No puedes ser tu propio codeudor.</p>`:`<p>Registra los datos de tu codeudor. En No Te Detengas puedes postularte como <b>tu propio codeudor</b> si certificas ingresos. En ese caso escribe aquí otra vez tus propios datos.</p>`,
+  acts:()=>["Diligencia los datos personales, laborales y de ingresos del codeudor.","Haz clic en <b>Siguiente</b>."],
+  img:[{src:"form-credito",cap:"El paso 6 es Información Codeudores.",hot:stepHot(82)}],
+  note:l=>`El codeudor debe tener máximo ${l==="proy"?"65":"70"} años, residir y tener ingresos en Colombia, no tener reportes negativos en centrales de riesgo y tener capacidad de endeudamiento. El estudiante y el codeudor firman la política y el pagaré.`},
+ {id:"f7",ph:1,t:"Formulario, paso 7 de 7 · Referencias del codeudor y Terminar",s:"7 · Terminar",
+  intro:()=>`<p>Es el último paso del formulario.</p>`,
+  acts:()=>["Registra las referencias del codeudor.","Haz clic en <b>Terminar</b>. El sistema te lleva a la carga de documentos."],
+  img:[{src:"form-credito",cap:"El paso 7 es Referencias Codeudores.",hot:stepHot(93)}],
+  note:()=>`Al hacer clic en Terminar todavía falta cargar los documentos. La solicitud no queda radicada hasta el siguiente paso.`},
+ {id:"cargar",ph:1,t:"Carga los documentos",s:"Cargar documentos",
+  intro:()=>`<p>Verás el <b>Listado de documentos</b>. Los que dicen <b>(Documento requerido)</b> son obligatorios. Cárgalos uno por uno.</p>`,
+  acts:()=>["Haz clic en <b>Browse</b> y elige el archivo PDF.","Haz clic en <b>Upload</b> para subirlo. Repite con cada documento.","Cuando todos los requeridos estén cargados se habilita <b>Terminar</b>. Haz clic allí."],
+  img:[{src:"documentos",cap:"Listado de documentos. Browse, Upload y Terminar.",hot:[[90.5,40.5,9.5,5.5,1],[84,40.5,6.5,5.5,2],[88,89.5,10,6,3]]}],
+  note:()=>`No adjuntes nada en el campo <b>Plan de pagos</b>. Ese espacio es para Financiación Universitaria.`},
+ {id:"tramite",ph:1,t:"Confirma que la solicitud quedó EN TRÁMITE",s:"En trámite",
+  intro:()=>`<p>Si todo salió bien, verás el mensaje <b>Proceso exitoso</b> y volverás al listado de solicitudes.</p>`,
+  acts:()=>["Verifica el mensaje Proceso exitoso.","Revisa que tu solicitud aparezca con el estado <b>EN TRÁMITE</b>."],
+  img:[{src:"en-tramite",cap:"Proceso exitoso y solicitud EN TRÁMITE.",hot:[[44,15,54,12,1],[82,94,9,5.5,2]]}],
+  note:()=>`Si no ves la solicitud EN TRÁMITE, no quedó radicada. Revisa que cargaste todos los documentos y que hiciste clic en Terminar.`},
+ {id:"estados",ph:2,t:"Haz seguimiento al estudio de tu crédito",s:"Seguimiento",
+  intro:()=>`<p>Entra a la plataforma de créditos y revisa el estado de tu solicitud. También te escribirán al correo.</p>${ST.slice(1,7).map(s=>`<div class="state-inline"><span class="tag ${s[1]}">${esc(s[0])}</span><span>${esc(s[2])}</span></div>`).join("")}`,
+  acts:()=>[],
+  note:()=>`Si queda <b>Devuelto</b>, lee la observación, corrige el documento o el dato y vuelve a cargarlo. <a href="#states" data-scroll="states">Ver todos los estados ↓</a>`},
+ {id:"d1",ph:2,t:"Pagaré 1 · Abre el correo de Deceval",s:"Pagaré · correo",
+  intro:()=>`<p>Cuando el crédito es preaprobado se genera un <b>pagaré electrónico</b>. Llega un correo de <b>administrador@pagares.bvc.com.co</b> al deudor y al codeudor registrados.</p>`,
+  acts:()=>["Abre el correo y haz clic en <b>Portal firma</b>."],
+  img:[{src:"deceval-correo",cap:"Correo de Deceval con el botón Portal firma.",hot:[[38,50,26,5,1]]}],
+  note:()=>`<b>Tú y tu codeudor</b> deben hacer cada uno los pasos de firma, desde su propio correo.`,
   links:()=>[["Instructivo de legalización",U.legal]]},
- {id:"plan",t:"Consulta tu plan de pagos y paga tus cuotas",s:"Plan y pagos",
-  d:()=>`<p>Cuando el crédito queda legalizado, Financiación Universitaria carga tu <b>plan de pagos</b>. Consúltalo y paga tus cuotas en SIGA, desde <b>Créditos Otorgados</b> en el bloque Finanzas del Alumnado. Las cuotas vencen el <b>día 5 de cada mes</b>.</p><ul><li><b>Plan de Pagos</b> muestra tus cuotas y fechas. Puedes imprimirlo.</li><li><b>Pagar Cuota</b> te deja pagar la cuota actual o un valor diferente, con PSE o tarjeta de crédito, o imprimir el recibo.</li><li><b>Histórico de Pagos</b> muestra los pagos que ya hiciste.</li></ul><p class="muted">Si tienes dificultades con el pago, escribe a cartera.financiacion@unisabana.edu.co.</p>`,
+ {id:"d2",ph:2,t:"Pagaré 2 · Autentícate en el portal",s:"Pagaré · ingreso",
+  intro:()=>`<p>Se abre el <b>Portal Firma</b> de Deceval con tu código OTP ya cargado.</p>`,
+  acts:()=>["Escribe los caracteres que muestra la imagen (captcha).","Haz clic en <b>Autenticar Código OTP</b>."],
+  img:[{src:"deceval-captcha",cap:"Portal Firma. Captcha y Autenticar Código OTP.",hot:[[61,71,21,7,1],[50,81,19,8,2]]}]},
+ {id:"d3",ph:2,t:"Pagaré 3 · Abre tu pagaré",s:"Pagaré · abrir",
+  intro:()=>`<p>Verás la <b>Lista de Pagarés a Firmar</b>, con el estado Listo para firmar.</p>`,
+  acts:()=>["Haz clic en la lupa de la columna <b>Detalle</b>."],
+  img:[{src:"deceval-lista",cap:"Lista de pagarés. Lupa de Detalle.",hot:[[89,70,7,14,1]]}]},
+ {id:"d4",ph:2,t:"Pagaré 4 · Revisa y firma",s:"Pagaré · firmar",
+  intro:()=>`<p>Se muestra el pagaré completo y la carta de instrucciones. Léelos.</p>`,
+  acts:()=>["Haz clic en <b>Firmar</b>."],
+  img:[{src:"deceval-firmar",cap:"Pagaré y botón Firmar.",hot:[[37,92,11,7,1]]}]},
+ {id:"d5",ph:2,t:"Pagaré 5 · Crea tu clave temporal",s:"Pagaré · clave",
+  intro:()=>`<p>Crea una clave de un solo uso. A la derecha verás los criterios en verde cuando se cumplan. Debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número, no puede ser tu número de identificación y no puede repetir un carácter más de 4 veces seguidas.</p>`,
+  acts:()=>["Escribe la clave y confírmala.","Haz clic en <b>Enviar No. Referencia</b>."],
+  img:[{src:"deceval-clave",cap:"Clave temporal y botón Enviar No. Referencia.",hot:[[37,46,30,22,1],[7.5,70.5,17,8,2]]}]},
+ {id:"d6",ph:2,t:"Pagaré 6 · Escribe el código de referencia",s:"Pagaré · código",
+  intro:()=>`<p>Te llega un <b>código de referencia</b> por mensaje de texto o al correo.</p>`,
+  acts:()=>["Escribe el código en <b>Código Referencia</b>.","Haz clic en <b>Firmar</b>."],
+  img:[{src:"deceval-codigo",cap:"Código Referencia y botón Firmar.",hot:[[18,36,33,8.5,1],[1,88,10,9,2]]},{src:"deceval-sms",cap:"Así llega el código de referencia."}]},
+ {id:"d7",ph:2,t:"Pagaré 7 · Confirma la firma",s:"Pagaré · listo",
+  intro:()=>`<p>Recibirás un correo de confirmación con una copia del pagaré en PDF. <b>La clave del PDF es tu número de documento.</b></p>`,
+  acts:()=>["Verifica el correo Notificación pagaré exitosamente firmado.","Recuérdale a tu codeudor que también firme."],
+  img:[{src:"pagare-exitoso",cap:"Correo de firma exitosa del pagaré."}],
+  note:()=>`Cuando deudor y codeudor firman, el estado pasa a <b>Crédito legalizado</b>. Con el crédito legalizado ya puedes <a href="#inscripcion">inscribir tus asignaturas</a>.`},
+ {id:"plan",ph:3,t:"Consulta tu plan de pagos",s:"Plan de pagos",
+  intro:()=>`<p>Con el crédito legalizado, Financiación Universitaria carga tu <b>plan de pagos</b> en SIGA, con las cuotas y sus fechas límite.</p>`,
   route:["Menú Principal","Autoservicio","Créditos","Créditos Otorgados"],
-  img:[{src:"siga-inicio",cap:"Inicio de SIGA. En Finanzas del Alumnado haz clic en Créditos Otorgados.",hot:[[70.2,62.3,9.2,3.6]]},{src:"siga-creditos",cap:"Créditos Otorgados con Plan de Pagos, Pagar Cuota e Histórico de Pagos.",hot:[[68.3,62.6,9.8,35],[77.8,62.6,8.6,9.2],[86,62.6,11.1,35]]},{src:"plan-pagos",cap:"Plan de pagos con tus cuotas y fechas límite."},{src:"pago-en-linea",cap:"Pagar Cuota. Selecciona la cuota y el medio de pago.",hot:[[3,34,22,6],[2,64,40,15]]}],
-  links:()=>[["Instructivo interactivo de pago de cuotas",U.genPago]]}
+  acts:()=>["En la página de inicio de SIGA, bloque <b>Finanzas del Alumnado</b>, haz clic en <b>Créditos Otorgados</b>.","En tu crédito haz clic en <b>Plan de Pagos</b>. Puedes imprimirlo."],
+  img:[{src:"siga-inicio",cap:"Inicio de SIGA. Créditos Otorgados.",hot:[[71,58.8,9.5,3.4,1]]},{src:"siga-creditos",cap:"Créditos Otorgados. Plan de Pagos.",hot:[[66.8,56,8.7,38,2]]},{src:"plan-pagos",cap:"Plan de pagos con cuotas y fechas límite."}],
+  links:()=>[["Instructivo interactivo de pago de cuotas",U.genPago]]},
+ {id:"cuota",ph:3,t:"Paga tus cuotas cada mes",s:"Pagar cuota",
+  intro:()=>`<p>Las cuotas vencen el <b>día 5 de cada mes</b> y empiezan el mes siguiente a tu solicitud.</p>`,
+  acts:()=>["En <b>Créditos Otorgados</b> haz clic en <b>Pagar Cuota</b>.","Marca <b>Seleccionar para pago</b> o usa <b>Pagar valor diferente</b> si quieres abonar otro valor.","Elige el medio de pago (PSE, tarjeta de crédito o imprimir recibo) y termina el pago."],
+  img:[{src:"siga-creditos",cap:"Créditos Otorgados. Pagar Cuota e Histórico de Pagos.",hot:[[76.2,64,7.5,9,1]]},{src:"pago-en-linea",cap:"Pagar Cuota. Selección y medio de pago.",hot:[[3,34,22,6,2],[2,64,40,15,3]]}],
+  note:()=>`En <b>Histórico de Pagos</b> ves los pagos que ya hiciste. Si tienes dificultades para pagar, escribe a tiempo a cartera.financiacion@unisabana.edu.co.`}
 ];
 const lineSteps=l=>S.filter(x=>!x.only||x.only.includes(l));
 let line=store.get("gp_line","esp"); if(!L[line])line="esp";
 let cs=0; const seenC=new Set([0]);
-const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp" alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(h=>`<i class="hot" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"></i>`).join("")}</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
+const hotHTML=h=>`<i class="hot${h[4]?" has-n":""}" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"${h[4]?` data-n="${h[4]}"`:""}></i>`;
+const figure=(im,i)=>`<figure class="shot" data-i="${i}"><button type="button" class="shot-btn" data-zoom="${im.src}" data-cap="${esc(im.cap)}" data-hot='${JSON.stringify(im.hot||[])}' aria-label="Ampliar: ${esc(im.cap)}"><span class="shot-img"><img src="${IMG+im.src}.webp" alt="${esc(im.cap)}" loading="lazy" decoding="async">${(im.hot||[]).map(hotHTML).join("")}</span><span class="zoom-hint" aria-hidden="true">Ampliar</span></button><figcaption>${esc(im.cap)}</figcaption></figure>`;
 function stepBody(x,l){
   const imgs=typeof x.img==="function"?x.img(l):(x.img||[]);
   const links=x.links?x.links(l):[];
+  const acts=x.acts?x.acts(l):[];
   const gal=imgs.length>1?`<div class="gallery" data-n="${imgs.length}"><div class="g-track">${imgs.map(figure).join("")}</div><div class="g-nav"><button type="button" class="btn ghost sm" data-g="-1" aria-label="Imagen anterior">←</button><span class="g-count">1 / ${imgs.length}</span><button type="button" class="btn ghost sm" data-g="1" aria-label="Imagen siguiente">→</button></div></div>`:imgs.map(figure).join("");
-  return `${x.d(l)}${x.route?route(x.route):""}${gal}${links.length?`<div class="linkrow">${links.map(a=>`<a href="${a[1]}" target="_blank" rel="noopener">${esc(a[0])} ↗</a>`).join("")}</div>`:""}`;
+  const note=x.note?x.note(l):"";
+  return `<div class="s-intro">${x.intro(l)}</div>${x.route?route(x.route):""}${acts.length?`<div class="acts-box"><span class="acts-h">Haz esto</span><ol class="acts">${acts.map((a,i)=>`<li><span class="an">${i+1}</span><span>${a}</span></li>`).join("")}</ol></div>`:""}${gal}${note?`<div class="callout blue s-note"><b>Ten en cuenta.</b> ${note}</div>`:""}${links.length?`<div class="linkrow">${links.map(a=>`<a href="${a[1]}" target="_blank" rel="noopener">${esc(a[0])} ↗</a>`).join("")}</div>`:""}`;
 }
 function renderLineTabs(){
   $("#lineTabs").innerHTML=Object.keys(L).map(k=>`<button type="button" role="tab" data-line="${k}" aria-selected="${k===line}"><b>${esc(L[k].n)}</b><small>${esc(L[k].tag)}</small></button>`).join("");
@@ -122,12 +210,14 @@ function renderLineTabs(){
 function renderCSteps(){
   const st=lineSteps(line); if(cs>=st.length)cs=st.length-1;
   $$("#lineTabs button").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.line===line)));
-  $("#cStepList").innerHTML=st.map((x,i)=>`<li><button type="button" role="tab" data-cs="${i}" aria-selected="${i===cs}" class="${seenC.has(i)&&i!==cs?"seen":""}"><span>${esc(x.s)}</span></button></li>`).join("");
-  const x=st[cs];
-  $("#cStepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cs+1).padStart(2,"0")}</span><div><span class="eyebrow">${esc(L[line].short)} · Paso ${cs+1} de ${st.length}</span><h3>${esc(x.t)}</h3></div></div>
+  let last=-1;
+  $("#cStepList").innerHTML=st.map((x,i)=>{const h=x.ph!==last?`<li class="ph-h" role="presentation"><span>Fase ${x.ph+1}</span>${esc(PH[x.ph])}</li>`:"";last=x.ph;return h+`<li><button type="button" role="tab" data-cs="${i}" aria-selected="${i===cs}" class="${seenC.has(i)&&i!==cs?"seen":""}"><em>${i+1}</em><span>${esc(x.s)}</span></button></li>`}).join("");
+  const x=st[cs], nx=st[cs+1];
+  $("#cStepPanel").innerHTML=`<div class="step-head"><span class="num">${String(cs+1).padStart(2,"0")}</span><div><span class="eyebrow">Fase ${x.ph+1} · ${esc(PH[x.ph])}</span><h3>${esc(x.t)}</h3><span class="s-meta">${esc(L[line].n)} · Paso ${cs+1} de ${st.length}</span></div></div>
   <div class="step-bar" aria-hidden="true"><i style="width:${(cs+1)/st.length*100}%"></i></div>
   <div class="cbody">${stepBody(x,line)}</div>
-  <div class="nav"><button class="btn ghost" type="button" data-cnav="-1" ${cs===0?"disabled":""}>← Anterior</button><button class="btn" type="button" data-cnav="1">${cs===st.length-1?"Volver al inicio":"Siguiente →"}</button></div>`;
+  <div class="nav"><button class="btn ghost" type="button" data-cnav="-1" ${cs===0?"disabled":""}>← Anterior</button><button class="btn" type="button" data-cnav="1">${nx?`Siguiente<span class="nx">: ${esc(nx.s)}</span> →`:"Volver al inicio ↺"}</button></div>`;
+  const cur=$("#cStepList button[aria-selected=true]"); if(cur){const ol=$("#cStepList"); if(ol.scrollHeight>ol.clientHeight)ol.scrollTop=cur.offsetTop-ol.clientHeight/2}
 }
 function setLine(l,scroll){if(!L[l])return;line=l;store.set("gp_line",l);cs=0;seenC.clear();seenC.add(0);renderCSteps();renderDocs();if(scroll)$("#pasoapaso").scrollIntoView({behavior:"smooth",block:"start"})}
 function goStep(l,i){line=l;cs=i;seenC.add(i);renderCSteps();const p=$("#cStepPanel");p.classList.remove("hl-flash");void p.offsetWidth;p.classList.add("hl-flash");return $("#pasoapaso")}
@@ -239,7 +329,7 @@ const B=[
  {c:"vinculo",n:"Becas Aliados (convenios)",who:"Miembros de entidades con convenio.",req:["Colegio Colombiano de Psicólogos, para programas de la Facultad de Psicología.","Sabana Empresarial, para funcionarios de empresas con convenio con la Asociación de Amigos de la Universidad (no aplica a doctorados).","Convocatorias del Gobierno Nacional, para programas de la Facultad de Educación.","Municipios de Sabana Centro (Cajicá, Funza, Sopó, Tenjo y Tocancipá), para empleados públicos u oficiales del municipio. Exige mantener un promedio acumulado de 4,0."],how:"La entidad certifica a sus beneficiarios. Consulta las condiciones de cada convenio.",links:[["Ver convenios","https://www.unisabana.edu.co/becas/posgrado/aspirantes/becas-convenio"]]},
  {c:"vinculo",n:"Becas Empleados",who:"Profesores de planta y de hora cátedra, empleados de la Universidad, INALDE, la Clínica y Fonsabana, y sus familiares.",how:"Se otorgan según las políticas de Desarrollo Humano.",links:[["Ver condiciones","https://www.unisabana.edu.co/becas/posgrado/becas-empleados"]]}
 ];
-const BHOW=`<article class="card pay-card beca-how" data-search="cómo solicitar beca SIGA solicitud becas ayudas económicas posgrado vencimiento orden matrícula 3 días"><div class="pay-txt"><span class="eyebrow">Paso a paso en SIGA</span><h3>Cómo solicitar una beca o descuento</h3><div class="callout"><b>Ojo con la fecha.</b> En posgrado, estudiantes nuevos y antiguos deben radicar la solicitud antes de la fecha de vencimiento de su orden de matrícula, como mínimo con 3 días de anticipación.</div><ol class="mini"><li>En la página de inicio de SIGA, bloque <b>Becas y Ayudas Económicas</b>, haz clic en <b>Sol. Becas y Ayudas Económicas</b>.</li><li>Lee las indicaciones de <b>Estudiantes de posgrado</b> y haz clic en <b>Ingresar Solicitud</b>.</li><li>En <b>Grado Académico</b> elige posgrado con la lupa y haz clic en <b>Aceptar</b>.</li><li>Elige la beca o el descuento, adjunta los soportes que te pidan y envía la solicitud.</li><li>Consulta el resultado en <b>Revisar Solicitudes</b>.</li></ol><p class="muted">Al enviar la solicitud aceptas los términos y condiciones de la beca y los compromisos que adquieres si te la aprueban.</p><div class="linkrow"><a href="https://usabana.widen.net/s/tdq2zrzmmh/instructivo-solicitud-de-becas-posgrado-1" target="_blank" rel="noopener">Instructivo de solicitud de becas de posgrado ↗</a></div></div><div class="pay-img"><div class="gallery" data-n="3"><div class="g-track">${[{src:"siga-inicio",cap:"Inicio de SIGA. Bloque Becas y Ayudas Económicas.",hot:[[68.5,79.4,15.0,3.6]]},{src:"siga-becas",cap:"Indicaciones para posgrado y botón Ingresar Solicitud.",hot:[[11.3,59.3,83.6,9.7],[12.1,94.3,35.2,4.1]]},{src:"siga-becas-form",cap:"Elige el grado académico y haz clic en Aceptar.",hot:[[29.9,75.9,9.1,5.7]]}].map(figure).join("")}</div><div class="g-nav"><button type="button" class="btn ghost sm" data-g="-1" aria-label="Imagen anterior">←</button><span class="g-count">1 / 3</span><button type="button" class="btn ghost sm" data-g="1" aria-label="Imagen siguiente">→</button></div></div></div></article>`;
+const BHOW=`<article class="card pay-card beca-how" data-search="cómo solicitar beca SIGA solicitud becas ayudas económicas posgrado vencimiento orden matrícula 3 días"><div class="pay-txt"><span class="eyebrow">Paso a paso en SIGA</span><h3>Cómo solicitar una beca o descuento</h3><div class="callout"><b>Ojo con la fecha.</b> En posgrado, estudiantes nuevos y antiguos deben radicar la solicitud antes de la fecha de vencimiento de su orden de matrícula, como mínimo con 3 días de anticipación.</div><ol class="mini"><li>En la página de inicio de SIGA, bloque <b>Becas y Ayudas Económicas</b>, haz clic en <b>Sol. Becas y Ayudas Económicas</b>.</li><li>Lee las indicaciones de <b>Estudiantes de posgrado</b> y haz clic en <b>Ingresar Solicitud</b>.</li><li>En <b>Grado Académico</b> elige posgrado con la lupa y haz clic en <b>Aceptar</b>.</li><li>Elige la beca o el descuento, adjunta los soportes que te pidan y envía la solicitud.</li><li>Consulta el resultado en <b>Revisar Solicitudes</b>.</li></ol><p class="muted">Al enviar la solicitud aceptas los términos y condiciones de la beca y los compromisos que adquieres si te la aprueban.</p><div class="linkrow"><a href="https://usabana.widen.net/s/tdq2zrzmmh/instructivo-solicitud-de-becas-posgrado-1" target="_blank" rel="noopener">Instructivo de solicitud de becas de posgrado ↗</a></div></div><div class="pay-img"><div class="gallery" data-n="3"><div class="g-track">${[{src:"siga-inicio",cap:"Inicio de SIGA. Bloque Becas y Ayudas Económicas.",hot:[[69.5,74.6,18,3.2,1]]},{src:"siga-becas",cap:"Indicaciones para posgrado y botón Ingresar Solicitud.",hot:[[9,34.5,81,22,2],[11.5,89.5,27.5,6,3]]},{src:"siga-becas-form",cap:"Elige el grado académico y haz clic en Aceptar.",hot:[[35,74,8.5,6,4],[38.5,90.5,13.5,6.5,5]]}].map(figure).join("")}</div><div class="g-nav"><button type="button" class="btn ghost sm" data-g="-1" aria-label="Imagen anterior">←</button><span class="g-count">1 / 3</span><button type="button" class="btn ghost sm" data-g="1" aria-label="Imagen siguiente">→</button></div></div></div></article>`;
 const BC=[["todas","Todas"],["ingreso","Al ingresar al programa"],["vinculo","Por tu vínculo o tu empresa"]];
 let bf="todas";
 const becaHTML=b=>`<article class="card beca" data-search="${esc("beca descuento "+b.n+" "+b.who+" "+(b.keep||"")+" "+(b.no||"")+" "+(b.req||[]).join(" "))}"><span class="tag ${b.c==="ingreso"?"red":"blue"}">${b.c==="ingreso"?"Al ingresar":"Por vínculo"}</span><h3>${esc(b.n)}</h3><p>${esc(b.who)}</p>${b.req?`<ul>${b.req.map(r=>`<li>${esc(r)}</li>`).join("")}</ul>`:""}${b.keep?`<p class="b-keep"><b>Duración.</b> ${esc(b.keep)}</p>`:""}${b.no?`<p class="b-no"><b>No aplica.</b> ${esc(b.no)}</p>`:""}<p class="b-how"><b>Cómo se solicita.</b> ${esc(b.how)}</p><div class="linkrow">${b.links.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join("")}</div></article>`;
@@ -253,7 +343,7 @@ const lb=document.createElement("div");lb.className="lightbox";lb.hidden=true;lb
 lb.innerHTML=`<div class="lb-box"><button type="button" class="lb-x" aria-label="Cerrar">✕</button><div class="lb-img"></div><p class="lb-cap"></p></div>`;
 document.body.appendChild(lb);
 let lbLast=null;
-function openLB(b){lbLast=b;const hot=JSON.parse(b.dataset.hot||"[]");$(".lb-img",lb).innerHTML=`<img src="${IMG+b.dataset.zoom}.webp" alt="">${hot.map(h=>`<i class="hot" style="left:${h[0]}%;top:${h[1]}%;width:${h[2]}%;height:${h[3]}%"></i>`).join("")}`;$(".lb-cap",lb).textContent=b.dataset.cap;lb.hidden=false;document.body.style.overflow="hidden";$(".lb-x",lb).focus()}
+function openLB(b){lbLast=b;const hot=JSON.parse(b.dataset.hot||"[]");$(".lb-img",lb).innerHTML=`<img src="${IMG+b.dataset.zoom}.webp" alt="">${hot.map(hotHTML).join("")}`;$(".lb-cap",lb).textContent=b.dataset.cap;lb.hidden=false;document.body.style.overflow="hidden";$(".lb-x",lb).focus()}
 function closeLB(){if(lb.hidden)return;lb.hidden=true;document.body.style.overflow="";if(lbLast)lbLast.focus({preventScroll:true})}
 lb.addEventListener("click",e=>{if(e.target===lb||e.target.closest(".lb-x"))closeLB()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLB()});
@@ -298,7 +388,7 @@ renderBecas();
 /* ---------- Índice de búsqueda para app.js ---------- */
 const strip=h=>h.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
 window.FIN={idx:[],print:printAll};
-Object.keys(L).forEach(l=>lineSteps(l).forEach((x,i)=>{const txt=strip(x.d(l));window.FIN.idx.push({sec:"Créditos y financiación",t:`${L[l].short} · Paso ${i+1}: ${x.t}`,txt,k:"credito financiacion "+L[l].n+" "+x.t+" "+txt,open:()=>goStep(l,i)})}));
+Object.keys(L).forEach(l=>lineSteps(l).forEach((x,i)=>{const txt=strip(x.intro(l)+" "+(x.acts?x.acts(l).join(" "):""));window.FIN.idx.push({sec:"Créditos y financiación",t:`${L[l].short} · Paso ${i+1}: ${x.t}`,txt,k:"credito financiacion "+L[l].n+" "+x.t+" "+txt,open:()=>goStep(l,i)})}));
 P.forEach(p=>window.FIN.idx.push({sec:"Pagos de matrícula",t:"Pagar: "+p.n,txt:strip(p.body),k:"pago pagar matricula "+p.n+" "+p.sub+" "+strip(p.body),open:()=>{pay=p.id;renderPay();return $("#payTabs")}}));
 window.FIN.printPrep=printAll;
 })();
