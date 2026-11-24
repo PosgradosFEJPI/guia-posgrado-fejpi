@@ -42,7 +42,7 @@ const CMP={cols:[["esp","No Te Detengas Especial"],["trad","No Te Detengas Tradi
  ["Cuánto financia",["El saldo de la matrícula, después de pagar el 50 %","Hasta el 100 % de la matrícula","Hasta el 100 % de la matrícula de cada semestre","Hasta el valor total de la matrícula"]],
  ["Cómo pagas",["50 % al menos 30 días antes de clases y el resto en hasta 5 cuotas mensuales","De 1 a 6 cuotas mensuales durante el semestre","50 % en 1 a 6 cuotas durante el semestre. El otro 50 % y los intereses al terminar materias, en hasta el doble de meses que semestres financiados","40 % durante los estudios y 60 % después"]],
  ["Intereses",["Sin intereses corrientes","Con interés corriente","Con interés corriente. Los de época de estudios se capitalizan o se pagan en un solo pago","Los define ICETEX"]],
- ["Codeudor",["Puedes ser tu propio codeudor si certificas ingresos y no tienes reportes negativos. Si no, un codeudor de hasta 70 años","Igual que en Especial","Siempre. Hasta 2 codeudores, de máximo 65 años","Deudor solidario con estudio crediticio de ICETEX"]],
+ ["Codeudor",["Siempre. Otra persona de máximo 70 años. No puedes ser tu propio codeudor","Siempre. Otra persona de máximo 70 años. No puedes ser tu propio codeudor","Siempre. Hasta 2 codeudores, de máximo 65 años. No puedes ser tu propio codeudor","Deudor solidario con estudio crediticio de ICETEX"]],
  ["Garantías",["Pagaré electrónico y póliza de seguro de vida","Pagaré electrónico y póliza de seguro de vida","Pagaré electrónico, póliza de seguro de vida semestral y formulario de asegurabilidad","Las que exija ICETEX"]],
  ["Renovación",["Nueva solicitud cada semestre","Nueva solicitud cada semestre","Renovación semestral con promedio acumulado de 3,8 o más","Renovación ante ICETEX"]],
  ["Dónde se solicita",["Plataforma de créditos","Plataforma de créditos","Plataforma de créditos","Portal de ICETEX"]]
@@ -53,11 +53,12 @@ function renderCmp(){
 }
 
 /* ---------- Paso a paso ---------- */
+const NOSELF=`<div class="callout warn-self" role="note"><b>Importante: no puedes ser tu propio codeudor.</b> El codeudor siempre debe ser otra persona (un familiar o una persona externa) que cumpla los requisitos. Si en el formulario registras tus propios datos como codeudor, la solicitud será devuelta.</div>`;
 const PH=["Prepárate antes de solicitar","Solicita en la plataforma de créditos","Aprobación y firma del pagaré","Paga tus cuotas"];
 const stepHot=x=>[[x-6,25,12,18,1]];
 const S=[
  {id:"politica",ph:0,t:"Elige tu línea y lee la política de crédito",s:"Política de crédito",
-  intro:l=>`<p>${esc(L[l].sum)}</p><p>Antes de cualquier trámite lee completa la <b>política de crédito</b> de tu línea. Allí están las condiciones, los plazos, los intereses y tus compromisos. La política es además uno de los documentos que vas a cargar, firmada por ti${l==="proy"?" y por tu codeudor":" y por tu codeudor si lo tienes"}.</p>`,
+  intro:l=>`<p>${esc(L[l].sum)}</p><p>Antes de cualquier trámite lee completa la <b>política de crédito</b> de tu línea. Allí están las condiciones, los plazos, los intereses y tus compromisos. La política es además uno de los documentos que vas a cargar, firmada por ti y por tu codeudor.</p>`,
   acts:()=>["Entra a la página de Financiación directa de posgrados.","Busca tu línea y haz clic en <b>Instructivo y documentos</b>.","Descarga la política, léela completa y fírmala."],
   img:[{src:"web-credito",cap:"Página oficial de Financiación directa. Botón Instructivo y documentos.",hot:[[59,79,18,10,2]]}],
   note:()=>`¿No sabes qué línea elegir? Revisa el comparador de líneas, justo debajo de este paso a paso.`,
@@ -81,7 +82,7 @@ const S=[
   img:[{src:"formulario-asegurabilidad",cap:"Formulario de asegurabilidad con los campos que debes diligenciar."}],
   links:()=>[["Descargar el formulario",U.formato]]},
  {id:"reunir",ph:0,t:"Reúne tus documentos en PDF",s:"Documentos listos",
-  intro:l=>`<p>Antes de entrar a la plataforma ten todos los documentos escaneados en <b>PDF</b>, legibles y completos. Los documentos de identidad van por ambas caras. Así no tendrás que interrumpir la solicitud.</p><ul><li>Documento de identidad del estudiante.</li><li>Política de crédito firmada.</li><li>Soporte de pago de la póliza.</li>${l==="esp"?"<li>Soporte de pago del 50 % de la matrícula.</li>":""}${l==="proy"?"<li>Formulario de asegurabilidad firmado.</li>":""}<li>Documentos del codeudor (o tuyos si eres tu propio codeudor), según si es empleado, independiente o pensionado.</li></ul>`,
+  intro:l=>`<p>Antes de entrar a la plataforma ten todos los documentos escaneados en <b>PDF</b>, legibles y completos. Los documentos de identidad van por ambas caras. Así no tendrás que interrumpir la solicitud.</p><ul><li>Documento de identidad del estudiante.</li><li>Política de crédito firmada.</li><li>Soporte de pago de la póliza.</li>${l==="esp"?"<li>Soporte de pago del 50 % de la matrícula.</li>":""}${l==="proy"?"<li>Formulario de asegurabilidad firmado.</li>":""}<li>Documentos del codeudor según si es empleado, independiente o pensionado. Recuerda que el codeudor debe ser otra persona.</li></ul>`,
   acts:()=>[],
   note:()=>`<a href="#docs" data-scroll="docs">Abre la lista de documentos para tu caso ↓</a> y marca cada uno cuando lo tengas.`},
  {id:"ingreso",ph:1,t:"Entra a la plataforma de créditos",s:"Ingreso",
@@ -114,7 +115,7 @@ const S=[
   intro:()=>`<p>Registra tu situación laboral como deudor. Si trabajas, incluye los datos de tu empleo actual y tus ingresos. Si eres independiente o pensionado, indícalo.</p>`,
   acts:()=>["Diligencia todos los campos obligatorios de información laboral.","Haz clic en <b>Siguiente</b>."],
   img:[{src:"form-credito",cap:"El paso 3 es Información Laboral.",hot:stepHot(49)}],
-  note:()=>`Si eres tu propio codeudor, lo que registres aquí debe coincidir con el certificado de ingresos que vas a cargar.`},
+  note:()=>`Registra datos reales y actualizados. Financiación Universitaria los verifica durante el estudio de crédito.`},
  {id:"f4",ph:1,t:"Formulario, paso 4 de 7 · Información familiar",s:"4 · Familiar",
   intro:()=>`<p>Registra la información de tu núcleo familiar que te pide el formulario.</p>`,
   acts:()=>["Diligencia todos los campos obligatorios.","Haz clic en <b>Siguiente</b>."],
@@ -125,7 +126,7 @@ const S=[
   img:[{src:"form-credito",cap:"El paso 5 es Referencias Deudor.",hot:stepHot(71)}],
   note:()=>`Avisa a tus referencias que pueden llamarlas.`},
  {id:"f6",ph:1,t:"Formulario, paso 6 de 7 · Información del codeudor",s:"6 · Codeudor",
-  intro:l=>l==="proy"?`<p>En Proyéctate el codeudor es <b>obligatorio</b> y puedes registrar hasta dos. No puedes ser tu propio codeudor.</p>`:`<p>Registra los datos de tu codeudor. En No Te Detengas puedes postularte como <b>tu propio codeudor</b> si certificas ingresos. En ese caso escribe aquí otra vez tus propios datos.</p>`,
+  intro:l=>`<p>Registra los datos de tu codeudor. El codeudor es <b>obligatorio</b> en todas las líneas${l==="proy"?" y en Proyéctate puedes registrar hasta dos":""}.</p>${NOSELF}`,
   acts:()=>["Diligencia los datos personales, laborales y de ingresos del codeudor.","Haz clic en <b>Siguiente</b>."],
   img:[{src:"form-credito",cap:"El paso 6 es Información Codeudores.",hot:stepHot(82)}],
   note:l=>`El codeudor debe tener máximo ${l==="proy"?"65":"70"} años, residir y tener ingresos en Colombia, no tener reportes negativos en centrales de riesgo y tener capacidad de endeudamiento. El estudiante y el codeudor firman la política y el pagaré.`},
@@ -237,7 +238,7 @@ const ST=[
 function renderStates(){$("#states").innerHTML=ST.map((s,i)=>`<div class="state"><span class="st-n">${i+1}</span><span class="tag ${s[1]}">${esc(s[0])}</span><p>${esc(s[2])}</p></div>`).join("")}
 
 /* ---------- Documentos ---------- */
-let dwho=store.get("gp_dwho","otro"), dinc=store.get("gp_dinc","emp");
+let dwho="otro", dinc=store.get("gp_dinc","emp");
 const dchk=new Set(store.get("gp_docs",[]));
 function docList(){
   const d=[["id-est","Documento de identidad del estudiante, por ambas caras"],["politica","Política de crédito leída y firmada por ti"+(dwho==="otro"||line==="proy"?" y tu codeudor":"")],["poliza","Soporte de pago de la póliza de seguro de vida"]];
@@ -255,11 +256,10 @@ function renderDocs(){
   const box=$("#docs"); if(!box)return;
   const self=dwho==="yo"&&line!=="proy";
   const list=docList(); const done=list.filter(x=>dchk.has(line+":"+x[0])).length;
-  box.innerHTML=`<div class="docs-ctl"><div><span class="lbl-s">Línea</span><div class="seg">${Object.keys(L).map(k=>`<button type="button" data-dline="${k}" aria-pressed="${k===line}">${esc(L[k].short)}</button>`).join("")}</div></div>
-  <div><span class="lbl-s">¿Quién es el codeudor?</span><div class="seg"><button type="button" data-dwho="otro" aria-pressed="${!self}">Otra persona</button><button type="button" data-dwho="yo" aria-pressed="${self}" ${line==="proy"?"disabled title=\"Proyéctate siempre exige codeudor\"":""}>Yo mismo</button></div></div>
-  <div><span class="lbl-s">${self?"Tus ingresos":"Ingresos del codeudor"}</span><div class="seg">${[["emp","Empleado"],["ind","Independiente"],["pen","Pensionado"]].map(o=>`<button type="button" data-dinc="${o[0]}" aria-pressed="${dinc===o[0]}">${o[1]}</button>`).join("")}</div></div></div>
+  box.innerHTML=`${NOSELF}<div class="docs-ctl"><div><span class="lbl-s">Línea</span><div class="seg">${Object.keys(L).map(k=>`<button type="button" data-dline="${k}" aria-pressed="${k===line}">${esc(L[k].short)}</button>`).join("")}</div></div>
+    <div><span class="lbl-s">${self?"Tus ingresos":"Ingresos del codeudor"}</span><div class="seg">${[["emp","Empleado"],["ind","Independiente"],["pen","Pensionado"]].map(o=>`<button type="button" data-dinc="${o[0]}" aria-pressed="${dinc===o[0]}">${o[1]}</button>`).join("")}</div></div></div>
   <ul class="checklist docs-list">${list.map((x,i)=>`<li class="${dchk.has(line+":"+x[0])?"done":""}"><input type="checkbox" id="dc-${x[0]}" data-dk="${x[0]}" ${dchk.has(line+":"+x[0])?"checked":""}><label for="dc-${x[0]}"><b>${esc(x[1])}</b></label></li>`).join("")}</ul>
-  <div class="docs-foot"><span class="tag ${done===list.length?"ok":"blue"}">${done} de ${list.length} listos</span><span class="muted">${self?"Al ser tu propio codeudor, en el formulario repite tus datos en la parte Datos codeudor.":"Todos en PDF, legibles y completos."}</span></div>`;
+  <div class="docs-foot"><span class="tag ${done===list.length?"ok":"blue"}">${done} de ${list.length} listos</span><span class="muted">Todos en PDF, legibles y completos.</span></div>`;
 }
 
 /* ---------- Pagos ---------- */
@@ -328,7 +328,6 @@ document.addEventListener("click",e=>{
   if((b=t.closest("[data-cs]"))){cs=+b.dataset.cs;seenC.add(cs);renderCSteps();return}
   if((b=t.closest("[data-cnav]"))){const n=lineSteps(line).length;cs=+b.dataset.cnav>0?(cs===n-1?0:cs+1):Math.max(0,cs-1);seenC.add(cs);renderCSteps();$("#cStepPanel").scrollIntoView({behavior:"smooth",block:"nearest"});return}
   if((b=t.closest("[data-dline]"))){setLine(b.dataset.dline);return}
-  if((b=t.closest("[data-dwho]"))){dwho=b.dataset.dwho;store.set("gp_dwho",dwho);renderDocs();return}
   if((b=t.closest("[data-dinc]"))){dinc=b.dataset.dinc;store.set("gp_dinc",dinc);renderDocs();return}
   if((b=t.closest("[data-pay]"))){pay=b.dataset.pay;renderPay();return}
   if((b=t.closest("[data-bf]"))){bf=b.dataset.bf;renderBecas();return}
