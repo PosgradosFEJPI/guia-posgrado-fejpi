@@ -728,3 +728,4 @@ ol.acts .an{flex:none;width:24px;height:24px;border-radius:50%;background:#E5132
 .card-shot .zoom-hint{font-size:.7rem;padding:3px 8px}
 .beca-ren{margin-top:18px}
 .pay-txt .contact{margin:6px 0}
+@media (max-width:560px){.pay-txt .contact{flex-wrap:wrap;row-gap:2px}.pay-txt .contact .k{max-width:none;width:100%}.pay-txt .contact .v{flex:1;overflow-wrap:anywhere}}

@@ -1,5 +1,5 @@
 /* Guarda la guía para consultarla sin conexión. Cambia VERSION al publicar cambios. */
-const VERSION = "guia-posgrado-v14";
+const VERSION = "guia-posgrado-v15";
 const CORE = ["/", "/index.html", "/styles.css", "/fin.js", "/app.js", "/logo.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
