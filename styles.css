@@ -726,3 +726,5 @@ ol.acts .an{flex:none;width:24px;height:24px;border-radius:50%;background:#E5132
 .card-shot .hot{border-width:1.5px;box-shadow:none;animation:none;border-radius:3px}
 .card-shot .hot.has-n::after{width:16px;height:16px;font-size:.6rem;border-width:1px}
 .card-shot .zoom-hint{font-size:.7rem;padding:3px 8px}
+.beca-ren{margin-top:18px}
+.pay-txt .contact{margin:6px 0}
