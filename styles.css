@@ -729,3 +729,5 @@ ol.acts .an{flex:none;width:24px;height:24px;border-radius:50%;background:#E5132
 .beca-ren{margin-top:18px}
 .pay-txt .contact{margin:6px 0}
 @media (max-width:560px){.pay-txt .contact{flex-wrap:wrap;row-gap:2px}.pay-txt .contact .k{max-width:none;width:100%}.pay-txt .contact .v{flex:1;overflow-wrap:anywhere}}
+.beca-cons{margin-top:18px}
+.cert-card{margin-top:4px}
